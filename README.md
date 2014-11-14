@@ -1,2 +1,3 @@
-Color2Music
+![Alt text](logo-v1.png "Color2Music")
 ===========
+
