@@ -1,0 +1,23 @@
+ÀÄmain
+   ÃÄMAIN  0/403  Ram=14
+   ³  ÃÄ??0??
+   ³  ÀÄleer_frecuencia_color  0/122  Ram=8
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÃÄcalcula_frecuencia  0/300  Ram=4
+   ³     ³  ÃÄ@ITOF  (Inline)  Ram=2
+   ³     ³  ÃÄ@DIVFF  (Inline)  Ram=14
+   ³     ³  ÀÄ@SFTOI  (Inline)  Ram=4
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÃÄcalcula_frecuencia  0/300  Ram=4
+   ³     ³  ÃÄ@ITOF  (Inline)  Ram=2
+   ³     ³  ÃÄ@DIVFF  (Inline)  Ram=14
+   ³     ³  ÀÄ@SFTOI  (Inline)  Ram=4
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÃÄ@delay_ms1  0/20  Ram=1
+   ³     ÀÄcalcula_frecuencia  0/300  Ram=4
+   ³        ÃÄ@ITOF  (Inline)  Ram=2
+   ³        ÃÄ@DIVFF  (Inline)  Ram=14
+   ³        ÀÄ@SFTOI  (Inline)  Ram=4
+   ÀÄllega_pulso  0/17  Ram=0

@@ -1,0 +1,95 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+015     CCP_1_LOW
+015     CCP_1
+016     CCP_1_HIGH
+020     @INTERRUPT_AREA
+021     @INTERRUPT_AREA
+022     @INTERRUPT_AREA
+023     @INTERRUPT_AREA
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028-029 tiempo
+02A-02B MAIN.frecuencia_R
+02C-02D MAIN.frecuencia_G
+02E-02F MAIN.frecuencia_B
+030-033 MAIN.tiempo_cal
+034     MAIN.dato
+035     MAIN.maximo
+036     MAIN.direccion
+037-038 leer_frecuencia_color.frecuencia_R
+037     MAIN.@SCRATCH1
+039-03A leer_frecuencia_color.frecuencia_G
+03B-03C leer_frecuencia_color.frecuencia_B
+03D     @delay_ms1.P1
+03D     leer_frecuencia_color.@SCRATCH1
+03E     leer_frecuencia_color.@SCRATCH2
+03F-040 calcula_frecuencia.tiempo_cal
+041-042 calcula_frecuencia.frecuencia
+043-046 @SFTOI.P1
+043-046 @DIVFF.P2
+043-044 @ITOF.P3
+047-04A @DIVFF.P1
+04B     @DIVFF.@SCRATCH1
+04C     @DIVFF.@SCRATCH2
+04D     @DIVFF.@SCRATCH3
+04E     @DIVFF.@SCRATCH4
+04F     @DIVFF.@SCRATCH5
+050     @DIVFF.@SCRATCH6
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+0042  @delay_ms1
+0031  llega_pulso
+0056  calcula_frecuencia
+005F  @ITOF
+008A  @DIVFF
+015B  @SFTOI
+0182  leer_frecuencia_color
+01FC  MAIN
+01FC  @cinit
+
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    C:\Nico\Teleco 4º\TCI\Codigo\
+
+Project Files:
+    main.c
+    main.h
+    16F88.h
+
+Units:
+    C:\Nico\Teleco 4º\TCI\Codigo\main (main)
+
+Compiler Settings:
+    Processor:      PIC16F88
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta
