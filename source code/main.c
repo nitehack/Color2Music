@@ -1,11 +1,11 @@
-#include "C:\Nico\Teleco 4∫\TCI\Codigo\main.h"
+#include "main.h"
 #define S0 PIN_B1
 #define S1 PIN_B2
 #define S2 PIN_B3
 #define S3 PIN_B4
 #define OE PIN_B5
 
-//Hay que poner el m·ximo de frecuencia para medir tiempos muy cortos y el minimo de
+//Hay que poner el m√°ximo de frecuencia para medir tiempos muy cortos y el minimo de
 // rango para que el error para medir la frecuencia con el metodo de medir
 // el periodo sea minimo ya que falla solo cuando son muy altas las frecuencias
 //Preescaler de 4 con minimo de 7 Hz
