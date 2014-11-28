@@ -1,11 +1,11 @@
-CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
+CCS PCM C Compiler, Version 4.104, 5967               28-nov.-14 00:28
 
-               Filename: C:\Nico\Teleco 4º\TCI\Codigo\main.lst
+               Filename: C:\Users\Ali\Documents\GitHub\Color2Music\source code\main.lst
 
-               ROM used: 911 words (22%)
+               ROM used: 934 words (23%)
                          Largest free fragment is 2048
-               RAM used: 29 (8%) at main() level
-                         54 (15%) worst case
+               RAM used: 32 (9%) at main() level
+                         57 (15%) worst case
                Stack:    3 worst case (2 in main + 1 for interrupts)
 
 *
@@ -58,7 +58,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 002E:  RETFIE
 002F:  BCF    0A.3
 0030:  GOTO   031
-.................... #include "C:\Nico\Teleco 4º\TCI\Codigo\main.h" 
+.................... #include "main.h" 
 .................... #include <16F88.h> 
 .................... //////// Standard Header file for the PIC16F88 device //////////////// 
 .................... #device PIC16F88 
@@ -82,7 +82,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 ....................  
 .................... #use delay(clock=8000000) 
 *
-0042:  MOVLW  3D
+0042:  MOVLW  40
 0043:  MOVWF  04
 0044:  BCF    03.7
 0045:  MOVF   00,W
@@ -117,8 +117,27 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 .................... // Si se desborda el timer poner una interrupcion y poner de frecuencia 0Hz 
 .................... //Poner reloj de 20 MHz externo 
 ....................  
-.................... //Posibles problemas!!: Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias 
+.................... //Informacion 
+.................... //----------- 
+.................... // Con 12 KHz 
+.................... //Maxima frecuencia para R: 13157 Hz  
+.................... //Maxima frecuencia para B: 13157 Hz (En hexadecimal 3365 Hz) 
+.................... // Maxima frecuencia para G:  11111 Hz (En hexadecimal 2B67) 
+.................... //MinimaR:169 Hz (A9) 
+.................... // Minima G: 135 Hz (87) 
+.................... //Minima B: 150 Hz (96) 
+....................  
+.................... //Que hay que hacer: 
+.................... //------------------ 
+.................... //Corregir error de 0 y de ganancia para los 3 filtros 
+.................... //Posibles problemas!!:  
+.................... //---------------------- 
+.................... //Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias 
+....................  
 .................... int16 tiempo=0; 
+.................... int8 offset_r=34; 
+.................... int8 offset_g=0; 
+.................... int8 offset_b=15; 
 ....................  
 .................... #INT_EXT 
 .................... void llega_pulso(void) { 
@@ -151,48 +170,48 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 *
 0056:  BCF    03.0
 0057:  RLF    28,W
-0058:  MOVWF  3F
+0058:  MOVWF  42
 0059:  RLF    29,W
-005A:  MOVWF  40
+005A:  MOVWF  43
 ....................    frecuencia=1000000.0/tiempo_cal; //esto es porque 1/(2N*micro)=(10^6)/2N 
-005B:  MOVF   40,W
-005C:  MOVWF  44
-005D:  MOVF   3F,W
-005E:  MOVWF  43
+005B:  MOVF   43,W
+005C:  MOVWF  47
+005D:  MOVF   42,W
+005E:  MOVWF  46
 *
-007B:  CLRF   46
+007B:  CLRF   49
 007C:  MOVLW  24
-007D:  MOVWF  45
+007D:  MOVWF  48
 007E:  MOVLW  74
-007F:  MOVWF  44
+007F:  MOVWF  47
 0080:  MOVLW  92
-0081:  MOVWF  43
+0081:  MOVWF  46
 0082:  MOVF   7A,W
-0083:  MOVWF  4A
+0083:  MOVWF  4D
 0084:  MOVF   79,W
-0085:  MOVWF  49
+0085:  MOVWF  4C
 0086:  MOVF   78,W
-0087:  MOVWF  48
+0087:  MOVWF  4B
 0088:  MOVF   77,W
-0089:  MOVWF  47
+0089:  MOVWF  4A
 *
 0153:  MOVF   7A,W
-0154:  MOVWF  46
+0154:  MOVWF  49
 0155:  MOVF   79,W
-0156:  MOVWF  45
+0156:  MOVWF  48
 0157:  MOVF   78,W
-0158:  MOVWF  44
+0158:  MOVWF  47
 0159:  MOVF   77,W
-015A:  MOVWF  43
+015A:  MOVWF  46
 *
 0179:  MOVF   79,W
-017A:  MOVWF  42
+017A:  MOVWF  45
 017B:  MOVF   78,W
-017C:  MOVWF  41
+017C:  MOVWF  44
 ....................    return frecuencia; 
-017D:  MOVF   41,W
+017D:  MOVF   44,W
 017E:  MOVWF  78
-017F:  MOVF   42,W
+017F:  MOVF   45,W
 0180:  MOVWF  79
 .................... } 
 0181:  RETURN
@@ -217,7 +236,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 ....................     
 ....................    delay_ms(1); 
 018E:  MOVLW  01
-018F:  MOVWF  3D
+018F:  MOVWF  40
 0190:  CALL   042
 ....................    output_low(OE); 
 0191:  BSF    03.5
@@ -226,20 +245,20 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 0194:  BCF    06.5
 ....................    delay_ms(10); 
 0195:  MOVLW  0A
-0196:  MOVWF  3D
+0196:  MOVWF  40
 0197:  CALL   042
 ....................    *frecuencia_R=calcula_frecuencia(); 
-0198:  MOVF   38,W
+0198:  MOVF   3B,W
 0199:  MOVWF  7A
-019A:  MOVF   37,W
-019B:  MOVWF  3D
-019C:  MOVF   38,W
-019D:  MOVWF  3E
+019A:  MOVF   3A,W
+019B:  MOVWF  40
+019C:  MOVF   3B,W
+019D:  MOVWF  41
 019E:  CALL   056
-019F:  MOVF   3D,W
+019F:  MOVF   40,W
 01A0:  MOVWF  04
 01A1:  BCF    03.7
-01A2:  BTFSC  3E.0
+01A2:  BTFSC  41.0
 01A3:  BSF    03.7
 01A4:  INCF   04,F
 01A5:  MOVF   79,W
@@ -267,7 +286,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 ....................     
 ....................    delay_ms(1); 
 01B6:  MOVLW  01
-01B7:  MOVWF  3D
+01B7:  MOVWF  40
 01B8:  CALL   042
 ....................    output_low(OE); 
 01B9:  BSF    03.5
@@ -276,20 +295,20 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 01BC:  BCF    06.5
 ....................    delay_ms(10); 
 01BD:  MOVLW  0A
-01BE:  MOVWF  3D
+01BE:  MOVWF  40
 01BF:  CALL   042
 ....................    *frecuencia_B=calcula_frecuencia(); 
-01C0:  MOVF   3C,W
+01C0:  MOVF   3F,W
 01C1:  MOVWF  7A
-01C2:  MOVF   3B,W
-01C3:  MOVWF  3D
-01C4:  MOVF   3C,W
-01C5:  MOVWF  3E
+01C2:  MOVF   3E,W
+01C3:  MOVWF  40
+01C4:  MOVF   3F,W
+01C5:  MOVWF  41
 01C6:  CALL   056
-01C7:  MOVF   3D,W
+01C7:  MOVF   40,W
 01C8:  MOVWF  04
 01C9:  BCF    03.7
-01CA:  BTFSC  3E.0
+01CA:  BTFSC  41.0
 01CB:  BSF    03.7
 01CC:  INCF   04,F
 01CD:  MOVF   79,W
@@ -317,7 +336,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 ....................     
 ....................    delay_ms(1); 
 01DE:  MOVLW  01
-01DF:  MOVWF  3D
+01DF:  MOVWF  40
 01E0:  CALL   042
 ....................    output_low(OE); 
 01E1:  BSF    03.5
@@ -326,20 +345,20 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 01E4:  BCF    06.5
 ....................    delay_ms(10); 
 01E5:  MOVLW  0A
-01E6:  MOVWF  3D
+01E6:  MOVWF  40
 01E7:  CALL   042
 ....................    *frecuencia_G=calcula_frecuencia(); 
-01E8:  MOVF   3A,W
+01E8:  MOVF   3D,W
 01E9:  MOVWF  7A
-01EA:  MOVF   39,W
-01EB:  MOVWF  3D
-01EC:  MOVF   3A,W
-01ED:  MOVWF  3E
+01EA:  MOVF   3C,W
+01EB:  MOVWF  40
+01EC:  MOVF   3D,W
+01ED:  MOVWF  41
 01EE:  CALL   056
-01EF:  MOVF   3D,W
+01EF:  MOVF   40,W
 01F0:  MOVWF  04
 01F1:  BCF    03.7
-01F2:  BTFSC  3E.0
+01F2:  BTFSC  41.0
 01F3:  BSF    03.7
 01F4:  INCF   04,F
 01F5:  MOVF   79,W
@@ -349,7 +368,7 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 01F9:  MOVWF  00
 .................... } 
 01FA:  BCF    0A.3
-01FB:  GOTO   238 (RETURN)
+01FB:  GOTO   23D (RETURN)
 .................... //Capturar flanco-> contar tiempo-> Capturar flanco-> Parar tiempo-> Leer tiempo-> Cambiar a frecuencia 
 ....................  
 ....................  
@@ -366,28 +385,33 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 0204:  BCF    03.5
 0205:  CLRF   29
 0206:  CLRF   28
-0207:  BSF    03.5
-0208:  BCF    1F.4
-0209:  BCF    1F.5
-020A:  MOVF   1B,W
-020B:  ANDLW  80
-020C:  MOVWF  1B
-020D:  MOVLW  07
-020E:  MOVWF  1C
-020F:  BCF    03.5
-0210:  CLRF   2B
-0211:  CLRF   2A
-0212:  CLRF   2D
-0213:  CLRF   2C
-0214:  CLRF   2F
+0207:  MOVLW  22
+0208:  MOVWF  2A
+0209:  CLRF   2B
+020A:  MOVLW  0F
+020B:  MOVWF  2C
+020C:  BSF    03.5
+020D:  BCF    1F.4
+020E:  BCF    1F.5
+020F:  MOVF   1B,W
+0210:  ANDLW  80
+0211:  MOVWF  1B
+0212:  MOVLW  07
+0213:  MOVWF  1C
+0214:  BCF    03.5
 0215:  CLRF   2E
-0216:  CLRF   33
-0217:  CLRF   32
-0218:  CLRF   31
-0219:  CLRF   30
-021A:  CLRF   34
-021B:  CLRF   35
-021C:  CLRF   36
+0216:  CLRF   2D
+0217:  CLRF   30
+0218:  CLRF   2F
+0219:  CLRF   32
+021A:  CLRF   31
+021B:  CLRF   36
+021C:  CLRF   35
+021D:  CLRF   34
+021E:  CLRF   33
+021F:  CLRF   37
+0220:  CLRF   38
+0221:  CLRF   39
 ....................    int16 frecuencia_R=0; 
 ....................    int16 frecuencia_G=0; 
 ....................    int16 frecuencia_B=0; 
@@ -398,453 +422,475 @@ CCS PCM C Compiler, Version 4.104, 5967               13-nov.-14 20:55
 ....................  
 ....................  
 ....................    ext_int_edge(0,L_TO_H); //Flanco ascendente 
-021D:  BSF    03.5
-021E:  BSF    01.6
+0222:  BSF    03.5
+0223:  BSF    01.6
 ....................    enable_interrupts(INT_EXT); 
-021F:  BCF    03.5
-0220:  BSF    0B.4
+0224:  BCF    03.5
+0225:  BSF    0B.4
 ....................    clear_interrupt(INT_EXT); //Borramos el flag 
-0221:  BCF    0B.1
+0226:  BCF    0B.1
 ....................    enable_interrupts(GLOBAL); 
-0222:  MOVLW  C0
-0223:  IORWF  0B,F
+0227:  MOVLW  C0
+0228:  IORWF  0B,F
 ....................    // TODO: USER CODE!! 
 ....................    setup_timer_1(T1_INTERNAL | T1_DIV_BY_4);//para llegar a medir frecuencias bajas 
-0224:  MOVLW  A5
-0225:  MOVWF  10
+0229:  MOVLW  A5
+022A:  MOVWF  10
 ....................     
 ....................    output_low(S0);// Para seleccionar el rango de 12 KHz 
-0226:  BSF    03.5
-0227:  BCF    06.1
-0228:  BCF    03.5
-0229:  BCF    06.1
+022B:  BSF    03.5
+022C:  BCF    06.1
+022D:  BCF    03.5
+022E:  BCF    06.1
 ....................    output_high(S1); 
-022A:  BSF    03.5
-022B:  BCF    06.2
-022C:  BCF    03.5
-022D:  BSF    06.2
+022F:  BSF    03.5
+0230:  BCF    06.2
+0231:  BCF    03.5
+0232:  BSF    06.2
 ....................    while(true){ 
 ....................       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B); 
-022E:  CLRF   38
-022F:  MOVLW  2A
-0230:  MOVWF  37
-0231:  CLRF   3A
-0232:  MOVLW  2C
-0233:  MOVWF  39
-0234:  CLRF   3C
-0235:  MOVLW  2E
-0236:  MOVWF  3B
-0237:  GOTO   182
+0233:  CLRF   3B
+0234:  MOVLW  2D
+0235:  MOVWF  3A
+0236:  CLRF   3D
+0237:  MOVLW  2F
+0238:  MOVWF  3C
+0239:  CLRF   3F
+023A:  MOVLW  31
+023B:  MOVWF  3E
+023C:  GOTO   182
+....................       frecuencia_R=frecuencia_R-offset_r; 
+023D:  MOVF   2A,W
+023E:  SUBWF  2D,F
+023F:  MOVLW  00
+0240:  BTFSS  03.0
+0241:  MOVLW  01
+0242:  SUBWF  2E,F
+....................       frecuencia_G=frecuencia_G-offset_g; 
+0243:  MOVF   2B,W
+0244:  SUBWF  2F,F
+0245:  MOVLW  00
+0246:  BTFSS  03.0
+0247:  MOVLW  01
+0248:  SUBWF  30,F
+....................       frecuencia_B=frecuencia_B-offset_b; 
+0249:  MOVF   2C,W
+024A:  SUBWF  31,F
+024B:  MOVLW  00
+024C:  BTFSS  03.0
+024D:  MOVLW  01
+024E:  SUBWF  32,F
+....................        
 ....................       dato=(int8)(frecuencia_R>>8); 
-0238:  MOVF   2B,W
-0239:  CLRF   7A
-023A:  MOVWF  34
+024F:  MOVF   2E,W
+0250:  CLRF   7A
+0251:  MOVWF  37
 ....................       write_eeprom(direccion, dato); 
-023B:  MOVF   36,W
-023C:  BSF    03.6
-023D:  MOVWF  0D
-023E:  BCF    03.6
-023F:  MOVF   34,W
-0240:  BSF    03.6
-0241:  MOVWF  0C
-0242:  BSF    03.5
-0243:  BCF    0C.7
-0244:  BSF    0C.2
-0245:  BCF    03.5
-0246:  BCF    03.6
-0247:  MOVF   0B,W
-0248:  MOVWF  77
-0249:  BCF    0B.7
-024A:  BSF    03.5
-024B:  BSF    03.6
-024C:  MOVLW  55
-024D:  MOVWF  0D
-024E:  MOVLW  AA
-024F:  MOVWF  0D
-0250:  BSF    0C.1
-0251:  BTFSC  0C.1
-0252:  GOTO   251
-0253:  BCF    0C.2
-0254:  MOVF   77,W
-0255:  BCF    03.5
-0256:  BCF    03.6
-0257:  IORWF  0B,F
-....................       dato=(int8)(frecuencia_R); 
-0258:  MOVF   2A,W
-0259:  MOVWF  34
-....................       write_eeprom(direccion+1, dato); 
-025A:  MOVLW  01
-025B:  ADDWF  36,W
-025C:  MOVWF  37
-025D:  MOVF   37,W
-025E:  BSF    03.6
-025F:  MOVWF  0D
-0260:  BCF    03.6
-0261:  MOVF   34,W
+0252:  MOVF   39,W
+0253:  BSF    03.6
+0254:  MOVWF  0D
+0255:  BCF    03.6
+0256:  MOVF   37,W
+0257:  BSF    03.6
+0258:  MOVWF  0C
+0259:  BSF    03.5
+025A:  BCF    0C.7
+025B:  BSF    0C.2
+025C:  BCF    03.5
+025D:  BCF    03.6
+025E:  MOVF   0B,W
+025F:  MOVWF  77
+0260:  BCF    0B.7
+0261:  BSF    03.5
 0262:  BSF    03.6
-0263:  MOVWF  0C
-0264:  BSF    03.5
-0265:  BCF    0C.7
-0266:  BSF    0C.2
-0267:  BCF    03.5
-0268:  BCF    03.6
-0269:  MOVF   0B,W
-026A:  MOVWF  77
-026B:  BCF    0B.7
-026C:  BSF    03.5
-026D:  BSF    03.6
-026E:  MOVLW  55
-026F:  MOVWF  0D
-0270:  MOVLW  AA
-0271:  MOVWF  0D
-0272:  BSF    0C.1
-0273:  BTFSC  0C.1
-0274:  GOTO   273
-0275:  BCF    0C.2
-0276:  MOVF   77,W
-0277:  BCF    03.5
-0278:  BCF    03.6
-0279:  IORWF  0B,F
+0263:  MOVLW  55
+0264:  MOVWF  0D
+0265:  MOVLW  AA
+0266:  MOVWF  0D
+0267:  BSF    0C.1
+0268:  BTFSC  0C.1
+0269:  GOTO   268
+026A:  BCF    0C.2
+026B:  MOVF   77,W
+026C:  BCF    03.5
+026D:  BCF    03.6
+026E:  IORWF  0B,F
+....................       dato=(int8)(frecuencia_R); 
+026F:  MOVF   2D,W
+0270:  MOVWF  37
+....................       write_eeprom(direccion+1, dato); 
+0271:  MOVLW  01
+0272:  ADDWF  39,W
+0273:  MOVWF  3A
+0274:  MOVF   3A,W
+0275:  BSF    03.6
+0276:  MOVWF  0D
+0277:  BCF    03.6
+0278:  MOVF   37,W
+0279:  BSF    03.6
+027A:  MOVWF  0C
+027B:  BSF    03.5
+027C:  BCF    0C.7
+027D:  BSF    0C.2
+027E:  BCF    03.5
+027F:  BCF    03.6
+0280:  MOVF   0B,W
+0281:  MOVWF  77
+0282:  BCF    0B.7
+0283:  BSF    03.5
+0284:  BSF    03.6
+0285:  MOVLW  55
+0286:  MOVWF  0D
+0287:  MOVLW  AA
+0288:  MOVWF  0D
+0289:  BSF    0C.1
+028A:  BTFSC  0C.1
+028B:  GOTO   28A
+028C:  BCF    0C.2
+028D:  MOVF   77,W
+028E:  BCF    03.5
+028F:  BCF    03.6
+0290:  IORWF  0B,F
 ....................        
 ....................       dato=(int8)(frecuencia_G>>8); 
-027A:  MOVF   2D,W
-027B:  CLRF   7A
-027C:  MOVWF  34
+0291:  MOVF   30,W
+0292:  CLRF   7A
+0293:  MOVWF  37
 ....................       write_eeprom(direccion+2, dato); 
-027D:  MOVLW  02
-027E:  ADDWF  36,W
-027F:  MOVWF  37
-0280:  MOVF   37,W
-0281:  BSF    03.6
-0282:  MOVWF  0D
-0283:  BCF    03.6
-0284:  MOVF   34,W
-0285:  BSF    03.6
-0286:  MOVWF  0C
-0287:  BSF    03.5
-0288:  BCF    0C.7
-0289:  BSF    0C.2
-028A:  BCF    03.5
-028B:  BCF    03.6
-028C:  MOVF   0B,W
-028D:  MOVWF  77
-028E:  BCF    0B.7
-028F:  BSF    03.5
-0290:  BSF    03.6
-0291:  MOVLW  55
-0292:  MOVWF  0D
-0293:  MOVLW  AA
-0294:  MOVWF  0D
-0295:  BSF    0C.1
-0296:  BTFSC  0C.1
-0297:  GOTO   296
-0298:  BCF    0C.2
-0299:  MOVF   77,W
-029A:  BCF    03.5
-029B:  BCF    03.6
-029C:  IORWF  0B,F
-....................       dato=(int8)(frecuencia_G); 
-029D:  MOVF   2C,W
-029E:  MOVWF  34
-....................       write_eeprom(direccion+3, dato); 
-029F:  MOVLW  03
-02A0:  ADDWF  36,W
-02A1:  MOVWF  37
-02A2:  MOVF   37,W
-02A3:  BSF    03.6
-02A4:  MOVWF  0D
-02A5:  BCF    03.6
-02A6:  MOVF   34,W
+0294:  MOVLW  02
+0295:  ADDWF  39,W
+0296:  MOVWF  3A
+0297:  MOVF   3A,W
+0298:  BSF    03.6
+0299:  MOVWF  0D
+029A:  BCF    03.6
+029B:  MOVF   37,W
+029C:  BSF    03.6
+029D:  MOVWF  0C
+029E:  BSF    03.5
+029F:  BCF    0C.7
+02A0:  BSF    0C.2
+02A1:  BCF    03.5
+02A2:  BCF    03.6
+02A3:  MOVF   0B,W
+02A4:  MOVWF  77
+02A5:  BCF    0B.7
+02A6:  BSF    03.5
 02A7:  BSF    03.6
-02A8:  MOVWF  0C
-02A9:  BSF    03.5
-02AA:  BCF    0C.7
-02AB:  BSF    0C.2
-02AC:  BCF    03.5
-02AD:  BCF    03.6
-02AE:  MOVF   0B,W
-02AF:  MOVWF  77
-02B0:  BCF    0B.7
-02B1:  BSF    03.5
-02B2:  BSF    03.6
-02B3:  MOVLW  55
-02B4:  MOVWF  0D
-02B5:  MOVLW  AA
-02B6:  MOVWF  0D
-02B7:  BSF    0C.1
-02B8:  BTFSC  0C.1
-02B9:  GOTO   2B8
-02BA:  BCF    0C.2
-02BB:  MOVF   77,W
-02BC:  BCF    03.5
-02BD:  BCF    03.6
-02BE:  IORWF  0B,F
+02A8:  MOVLW  55
+02A9:  MOVWF  0D
+02AA:  MOVLW  AA
+02AB:  MOVWF  0D
+02AC:  BSF    0C.1
+02AD:  BTFSC  0C.1
+02AE:  GOTO   2AD
+02AF:  BCF    0C.2
+02B0:  MOVF   77,W
+02B1:  BCF    03.5
+02B2:  BCF    03.6
+02B3:  IORWF  0B,F
+....................       dato=(int8)(frecuencia_G); 
+02B4:  MOVF   2F,W
+02B5:  MOVWF  37
+....................       write_eeprom(direccion+3, dato); 
+02B6:  MOVLW  03
+02B7:  ADDWF  39,W
+02B8:  MOVWF  3A
+02B9:  MOVF   3A,W
+02BA:  BSF    03.6
+02BB:  MOVWF  0D
+02BC:  BCF    03.6
+02BD:  MOVF   37,W
+02BE:  BSF    03.6
+02BF:  MOVWF  0C
+02C0:  BSF    03.5
+02C1:  BCF    0C.7
+02C2:  BSF    0C.2
+02C3:  BCF    03.5
+02C4:  BCF    03.6
+02C5:  MOVF   0B,W
+02C6:  MOVWF  77
+02C7:  BCF    0B.7
+02C8:  BSF    03.5
+02C9:  BSF    03.6
+02CA:  MOVLW  55
+02CB:  MOVWF  0D
+02CC:  MOVLW  AA
+02CD:  MOVWF  0D
+02CE:  BSF    0C.1
+02CF:  BTFSC  0C.1
+02D0:  GOTO   2CF
+02D1:  BCF    0C.2
+02D2:  MOVF   77,W
+02D3:  BCF    03.5
+02D4:  BCF    03.6
+02D5:  IORWF  0B,F
 ....................        
 ....................       dato=(int8)(frecuencia_B>>8); 
-02BF:  MOVF   2F,W
-02C0:  CLRF   7A
-02C1:  MOVWF  34
+02D6:  MOVF   32,W
+02D7:  CLRF   7A
+02D8:  MOVWF  37
 ....................       write_eeprom(direccion+4, dato); 
-02C2:  MOVLW  04
-02C3:  ADDWF  36,W
-02C4:  MOVWF  37
-02C5:  MOVF   37,W
-02C6:  BSF    03.6
-02C7:  MOVWF  0D
-02C8:  BCF    03.6
-02C9:  MOVF   34,W
-02CA:  BSF    03.6
-02CB:  MOVWF  0C
-02CC:  BSF    03.5
-02CD:  BCF    0C.7
-02CE:  BSF    0C.2
-02CF:  BCF    03.5
-02D0:  BCF    03.6
-02D1:  MOVF   0B,W
-02D2:  MOVWF  77
-02D3:  BCF    0B.7
-02D4:  BSF    03.5
-02D5:  BSF    03.6
-02D6:  MOVLW  55
-02D7:  MOVWF  0D
-02D8:  MOVLW  AA
-02D9:  MOVWF  0D
-02DA:  BSF    0C.1
-02DB:  BTFSC  0C.1
-02DC:  GOTO   2DB
-02DD:  BCF    0C.2
-02DE:  MOVF   77,W
-02DF:  BCF    03.5
-02E0:  BCF    03.6
-02E1:  IORWF  0B,F
-....................       dato=(int8)(frecuencia_B); 
-02E2:  MOVF   2E,W
-02E3:  MOVWF  34
-....................       write_eeprom(direccion+5, dato); 
-02E4:  MOVLW  05
-02E5:  ADDWF  36,W
-02E6:  MOVWF  37
-02E7:  MOVF   37,W
-02E8:  BSF    03.6
-02E9:  MOVWF  0D
-02EA:  BCF    03.6
-02EB:  MOVF   34,W
+02D9:  MOVLW  04
+02DA:  ADDWF  39,W
+02DB:  MOVWF  3A
+02DC:  MOVF   3A,W
+02DD:  BSF    03.6
+02DE:  MOVWF  0D
+02DF:  BCF    03.6
+02E0:  MOVF   37,W
+02E1:  BSF    03.6
+02E2:  MOVWF  0C
+02E3:  BSF    03.5
+02E4:  BCF    0C.7
+02E5:  BSF    0C.2
+02E6:  BCF    03.5
+02E7:  BCF    03.6
+02E8:  MOVF   0B,W
+02E9:  MOVWF  77
+02EA:  BCF    0B.7
+02EB:  BSF    03.5
 02EC:  BSF    03.6
-02ED:  MOVWF  0C
-02EE:  BSF    03.5
-02EF:  BCF    0C.7
-02F0:  BSF    0C.2
-02F1:  BCF    03.5
-02F2:  BCF    03.6
-02F3:  MOVF   0B,W
-02F4:  MOVWF  77
-02F5:  BCF    0B.7
-02F6:  BSF    03.5
-02F7:  BSF    03.6
-02F8:  MOVLW  55
-02F9:  MOVWF  0D
-02FA:  MOVLW  AA
-02FB:  MOVWF  0D
-02FC:  BSF    0C.1
-02FD:  BTFSC  0C.1
-02FE:  GOTO   2FD
-02FF:  BCF    0C.2
-0300:  MOVF   77,W
-0301:  BCF    03.5
-0302:  BCF    03.6
-0303:  IORWF  0B,F
+02ED:  MOVLW  55
+02EE:  MOVWF  0D
+02EF:  MOVLW  AA
+02F0:  MOVWF  0D
+02F1:  BSF    0C.1
+02F2:  BTFSC  0C.1
+02F3:  GOTO   2F2
+02F4:  BCF    0C.2
+02F5:  MOVF   77,W
+02F6:  BCF    03.5
+02F7:  BCF    03.6
+02F8:  IORWF  0B,F
+....................       dato=(int8)(frecuencia_B); 
+02F9:  MOVF   31,W
+02FA:  MOVWF  37
+....................       write_eeprom(direccion+5, dato); 
+02FB:  MOVLW  05
+02FC:  ADDWF  39,W
+02FD:  MOVWF  3A
+02FE:  MOVF   3A,W
+02FF:  BSF    03.6
+0300:  MOVWF  0D
+0301:  BCF    03.6
+0302:  MOVF   37,W
+0303:  BSF    03.6
+0304:  MOVWF  0C
+0305:  BSF    03.5
+0306:  BCF    0C.7
+0307:  BSF    0C.2
+0308:  BCF    03.5
+0309:  BCF    03.6
+030A:  MOVF   0B,W
+030B:  MOVWF  77
+030C:  BCF    0B.7
+030D:  BSF    03.5
+030E:  BSF    03.6
+030F:  MOVLW  55
+0310:  MOVWF  0D
+0311:  MOVLW  AA
+0312:  MOVWF  0D
+0313:  BSF    0C.1
+0314:  BTFSC  0C.1
+0315:  GOTO   314
+0316:  BCF    0C.2
+0317:  MOVF   77,W
+0318:  BCF    03.5
+0319:  BCF    03.6
+031A:  IORWF  0B,F
 ....................        
 ....................       direccion=direccion+7; 
-0304:  MOVLW  07
-0305:  ADDWF  36,F
+031B:  MOVLW  07
+031C:  ADDWF  39,F
 ....................        
 ....................       if((frecuencia_R<288)&&(frecuencia_G<208)&&(frecuencia_B<208)){ 
-0306:  MOVF   2B,W
-0307:  SUBLW  01
-0308:  BTFSS  03.0
-0309:  GOTO   320
-030A:  BTFSS  03.2
-030B:  GOTO   310
-030C:  MOVF   2A,W
-030D:  SUBLW  1F
-030E:  BTFSS  03.0
-030F:  GOTO   320
-0310:  MOVF   2D,F
-0311:  BTFSS  03.2
-0312:  GOTO   320
-0313:  MOVF   2C,W
-0314:  SUBLW  CF
-0315:  BTFSS  03.0
-0316:  GOTO   320
-0317:  MOVF   2F,F
-0318:  BTFSS  03.2
-0319:  GOTO   320
-031A:  MOVF   2E,W
-031B:  SUBLW  CF
-031C:  BTFSS  03.0
-031D:  GOTO   320
-....................          maximo=0; 
-031E:  CLRF   35
-....................       } 
-....................       else{ 
-031F:  GOTO   349
-....................          if(frecuencia_R>frecuencia_G){ 
-0320:  MOVF   2D,W
-0321:  SUBWF  2B,W
-0322:  BTFSS  03.0
-0323:  GOTO   33A
-0324:  BTFSS  03.2
-0325:  GOTO   32A
-0326:  MOVF   2A,W
-0327:  SUBWF  2C,W
-0328:  BTFSC  03.0
-0329:  GOTO   33A
-....................             if(frecuencia_R>frecuencia_B){ 
+031D:  MOVF   2E,W
+031E:  SUBLW  01
+031F:  BTFSS  03.0
+0320:  GOTO   337
+0321:  BTFSS  03.2
+0322:  GOTO   327
+0323:  MOVF   2D,W
+0324:  SUBLW  1F
+0325:  BTFSS  03.0
+0326:  GOTO   337
+0327:  MOVF   30,F
+0328:  BTFSS  03.2
+0329:  GOTO   337
 032A:  MOVF   2F,W
-032B:  SUBWF  2B,W
+032B:  SUBLW  CF
 032C:  BTFSS  03.0
 032D:  GOTO   337
-032E:  BTFSS  03.2
-032F:  GOTO   334
-0330:  MOVF   2A,W
-0331:  SUBWF  2E,W
-0332:  BTFSC  03.0
-0333:  GOTO   337
+032E:  MOVF   32,F
+032F:  BTFSS  03.2
+0330:  GOTO   337
+0331:  MOVF   31,W
+0332:  SUBLW  CF
+0333:  BTFSS  03.0
+0334:  GOTO   337
+....................          maximo=0; 
+0335:  CLRF   38
+....................       } 
+....................       else{ 
+0336:  GOTO   360
+....................          if(frecuencia_R>frecuencia_G){ 
+0337:  MOVF   30,W
+0338:  SUBWF  2E,W
+0339:  BTFSS  03.0
+033A:  GOTO   351
+033B:  BTFSS  03.2
+033C:  GOTO   341
+033D:  MOVF   2D,W
+033E:  SUBWF  2F,W
+033F:  BTFSC  03.0
+0340:  GOTO   351
+....................             if(frecuencia_R>frecuencia_B){ 
+0341:  MOVF   32,W
+0342:  SUBWF  2E,W
+0343:  BTFSS  03.0
+0344:  GOTO   34E
+0345:  BTFSS  03.2
+0346:  GOTO   34B
+0347:  MOVF   2D,W
+0348:  SUBWF  31,W
+0349:  BTFSC  03.0
+034A:  GOTO   34E
 ....................                maximo=1; 
-0334:  MOVLW  01
-0335:  MOVWF  35
+034B:  MOVLW  01
+034C:  MOVWF  38
 ....................             } 
 ....................             else{ 
-0336:  GOTO   339
+034D:  GOTO   350
 ....................                maximo=3; 
-0337:  MOVLW  03
-0338:  MOVWF  35
+034E:  MOVLW  03
+034F:  MOVWF  38
 ....................             } 
 ....................          } 
 ....................          else{ 
-0339:  GOTO   349
+0350:  GOTO   360
 ....................             if(frecuencia_G>frecuencia_B){ 
-033A:  MOVF   2F,W
-033B:  SUBWF  2D,W
-033C:  BTFSS  03.0
-033D:  GOTO   347
-033E:  BTFSS  03.2
-033F:  GOTO   344
-0340:  MOVF   2C,W
-0341:  SUBWF  2E,W
-0342:  BTFSC  03.0
-0343:  GOTO   347
+0351:  MOVF   32,W
+0352:  SUBWF  30,W
+0353:  BTFSS  03.0
+0354:  GOTO   35E
+0355:  BTFSS  03.2
+0356:  GOTO   35B
+0357:  MOVF   2F,W
+0358:  SUBWF  31,W
+0359:  BTFSC  03.0
+035A:  GOTO   35E
 ....................                maximo=2; 
-0344:  MOVLW  02
-0345:  MOVWF  35
+035B:  MOVLW  02
+035C:  MOVWF  38
 ....................             } 
 ....................             else{ 
-0346:  GOTO   349
+035D:  GOTO   360
 ....................                maximo=3; 
-0347:  MOVLW  03
-0348:  MOVWF  35
+035E:  MOVLW  03
+035F:  MOVWF  38
 ....................             } 
 ....................          } 
 ....................       } 
 ....................       switch(maximo){ 
-0349:  MOVF   35,W
-034A:  XORLW  01
-034B:  BTFSC  03.2
-034C:  GOTO   354
-034D:  XORLW  03
-034E:  BTFSC  03.2
-034F:  GOTO   361
-0350:  XORLW  01
-0351:  BTFSC  03.2
-0352:  GOTO   36E
-0353:  GOTO   37B
+0360:  MOVF   38,W
+0361:  XORLW  01
+0362:  BTFSC  03.2
+0363:  GOTO   36B
+0364:  XORLW  03
+0365:  BTFSC  03.2
+0366:  GOTO   378
+0367:  XORLW  01
+0368:  BTFSC  03.2
+0369:  GOTO   385
+036A:  GOTO   392
 ....................          case 1: 
 ....................             output_low(PIN_A1); 
-0354:  BSF    03.5
-0355:  BCF    05.1
-0356:  BCF    03.5
-0357:  BCF    05.1
+036B:  BSF    03.5
+036C:  BCF    05.1
+036D:  BCF    03.5
+036E:  BCF    05.1
 ....................             output_low(PIN_A2); 
-0358:  BSF    03.5
-0359:  BCF    05.2
-035A:  BCF    03.5
-035B:  BCF    05.2
+036F:  BSF    03.5
+0370:  BCF    05.2
+0371:  BCF    03.5
+0372:  BCF    05.2
 ....................             output_high(PIN_A0); 
-035C:  BSF    03.5
-035D:  BCF    05.0
-035E:  BCF    03.5
-035F:  BSF    05.0
+0373:  BSF    03.5
+0374:  BCF    05.0
+0375:  BCF    03.5
+0376:  BSF    05.0
 ....................             break; 
-0360:  GOTO   388
+0377:  GOTO   39F
 ....................          case 2: 
 ....................             output_low(PIN_A0); 
-0361:  BSF    03.5
-0362:  BCF    05.0
-0363:  BCF    03.5
-0364:  BCF    05.0
+0378:  BSF    03.5
+0379:  BCF    05.0
+037A:  BCF    03.5
+037B:  BCF    05.0
 ....................             output_low(PIN_A2); 
-0365:  BSF    03.5
-0366:  BCF    05.2
-0367:  BCF    03.5
-0368:  BCF    05.2
+037C:  BSF    03.5
+037D:  BCF    05.2
+037E:  BCF    03.5
+037F:  BCF    05.2
 ....................             output_high(PIN_A1); 
-0369:  BSF    03.5
-036A:  BCF    05.1
-036B:  BCF    03.5
-036C:  BSF    05.1
+0380:  BSF    03.5
+0381:  BCF    05.1
+0382:  BCF    03.5
+0383:  BSF    05.1
 ....................             break; 
-036D:  GOTO   388
+0384:  GOTO   39F
 ....................              
 ....................          case 3: 
 ....................             output_low(PIN_A0); 
-036E:  BSF    03.5
-036F:  BCF    05.0
-0370:  BCF    03.5
-0371:  BCF    05.0
+0385:  BSF    03.5
+0386:  BCF    05.0
+0387:  BCF    03.5
+0388:  BCF    05.0
 ....................             output_low(PIN_A1); 
-0372:  BSF    03.5
-0373:  BCF    05.1
-0374:  BCF    03.5
-0375:  BCF    05.1
+0389:  BSF    03.5
+038A:  BCF    05.1
+038B:  BCF    03.5
+038C:  BCF    05.1
 ....................             output_high(PIN_A2); 
-0376:  BSF    03.5
-0377:  BCF    05.2
-0378:  BCF    03.5
-0379:  BSF    05.2
+038D:  BSF    03.5
+038E:  BCF    05.2
+038F:  BCF    03.5
+0390:  BSF    05.2
 ....................             break; 
-037A:  GOTO   388
+0391:  GOTO   39F
 ....................          default: 
 ....................             output_low(PIN_A0); 
-037B:  BSF    03.5
-037C:  BCF    05.0
-037D:  BCF    03.5
-037E:  BCF    05.0
+0392:  BSF    03.5
+0393:  BCF    05.0
+0394:  BCF    03.5
+0395:  BCF    05.0
 ....................             output_low(PIN_A1); 
-037F:  BSF    03.5
-0380:  BCF    05.1
-0381:  BCF    03.5
-0382:  BCF    05.1
+0396:  BSF    03.5
+0397:  BCF    05.1
+0398:  BCF    03.5
+0399:  BCF    05.1
 ....................             output_low(PIN_A2); 
-0383:  BSF    03.5
-0384:  BCF    05.2
-0385:  BCF    03.5
-0386:  BCF    05.2
+039A:  BSF    03.5
+039B:  BCF    05.2
+039C:  BCF    03.5
+039D:  BCF    05.2
 ....................             break; 
-0387:  GOTO   388
+039E:  GOTO   39F
 ....................       } 
 ....................       if (direccion>=240){ 
-0388:  MOVF   36,W
-0389:  SUBLW  EF
-038A:  BTFSC  03.0
-038B:  GOTO   38D
+039F:  MOVF   39,W
+03A0:  SUBLW  EF
+03A1:  BTFSC  03.0
+03A2:  GOTO   3A4
 ....................          direccion=0; 
-038C:  CLRF   36
+03A3:  CLRF   39
 ....................       } 
 ....................    } 
-038D:  GOTO   22E
+03A4:  GOTO   233
 ....................     
 .................... } 
-038E:  SLEEP
+03A5:  SLEEP
 
 Configuration Fuses:
    Word  1: 3F38   NOWDT NOPUT MCLR NOBROWNOUT NOLVP NOCPD NOWRT NODEBUG CCPB0 NOPROTECT INTRC_IO

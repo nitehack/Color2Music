@@ -1,51 +1,51 @@
 
-ROM used: 911 (22%)
-          911 (22%) including unused fragments
+ROM used: 934 (23%)
+          934 (23%) including unused fragments
 
           2 Average locations per line
-          11 Average locations per statement
+          10 Average locations per statement
 
-RAM used: 29 (8%) at main() level
-          54 (15%) worst case
+RAM used: 32 (9%) at main() level
+          57 (15%) worst case
 
 Stack used: 3 worst case (out of 8 total available)
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  155    86 100  main.c
+  178    89 100  main.c
    20     0   0  main.h
   315     0   0  16F88.h
 ----- -----
-  490    86 Total
+  513    89 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0     20   2   1             @delay_ms1
 0     17   2   0    42  1.4  llega_pulso
-0    300  33   4    99  3.0  calcula_frecuencia
- Inline        2   158  2.2  @ITOF
- Inline       14   654  6.8  @DIVFF
+0    300  32   4    99  3.0  calcula_frecuencia
+ Inline        2             @ITOF
+ Inline       14             @DIVFF
  Inline        4             @SFTOI
 0    122  13   8   593  3.0  leer_frecuencia_color
-0    403  44  14  2390 11.1  MAIN
+0    426  46  14  2552 11.6  MAIN
 
 Program metrics:
-    Functions               6
-    Statements              86
-    Comments                98
-    Volume (V)              5103
-    Difficilty (D)          28.2
-    Effort to implement (E) 143940
-    Time to implement (T)   2 hours, 13 minutes
+    Functions               4
+    Statements              89
+    Comments                112
+    Volume (V)              3869
+    Difficilty (D)          19.5
+    Effort to implement (E) 75451
+    Time to implement (T)   1 hours, 10 minutes
     Est Delivered Bugs (B)  1
-    Cyclomatic Complexity   10
-    Maintainability (MI)    91
+    Cyclomatic Complexity   9
+    Maintainability (MI)    132
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
 00004-00030    45  0  
-00031-007FF   862  1137  
+00031-007FF   885  1114  
 00800-00FFF     0  2048  
 
 

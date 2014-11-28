@@ -1,19 +1,31 @@
-#include "C:\Nico\Teleco 4º\TCI\Codigo\main.h"
+#include "main.h"
 #define S0 PIN_B1
 #define S1 PIN_B2
 #define S2 PIN_B3
 #define S3 PIN_B4
 #define OE PIN_B5
 
-//Hay que poner el máximo de frecuencia para medir tiempos muy cortos y el minimo de
+//Hay que poner el mÃ¡ximo de frecuencia para medir tiempos muy cortos y el minimo de
 // rango para que el error para medir la frecuencia con el metodo de medir
 // el periodo sea minimo ya que falla solo cuando son muy altas las frecuencias
 //Preescaler de 4 con minimo de 7 Hz
 // Si se desborda el timer poner una interrupcion y poner de frecuencia 0Hz
 //Poner reloj de 20 MHz externo
 
+//Informacion
+//-----------
+// Con 12 KHz
+//Maxima frecuencia para R y B: 13157 Hz (En hexadecimal 3365 Hz)
+// Maxima frecuencia para G:  11111 Hz (En hexadecimal 2B67)
+//MinimaR:169 Hz (A9)
+// Minima G: 135 Hz (87)
+//Minima B: 150 Hz (96)
+
 //Posibles problemas!!: Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias
 int16 tiempo=0;
+int8 offset_r=34;
+int8 offset_g=0;
+int8 offset_b=15;
 
 #INT_EXT
 void llega_pulso(void) {
@@ -29,39 +41,7 @@ int16 calcula_frecuencia(){
    return frecuencia;
 }
 
-//!void leer_frecuencia_color(int *frecuencia_R, int *frecuencia_G, int *frecuencia_B){
-//!   output_low(S2);
-//!   output_low(S3);
-//!   output_low(OE);
-//!   delay_ms(100);
-//!   frecuencia_R=calcula_frecuencia();
-//!   output_high(OE);
-//!         
-//!   output_low(S2);
-//!   output_high(S3);
-//!   output_low(OE);
-//!   delay_ms(100);
-//!   frecuencia_B=calcula_frecuencia();
-//!   output_high(OE);
-//!         
-//!   output_high(S2);
-//!   output_high(S3);
-//!   output_low(OE);
-//!   delay_ms(100);
-//!   frecuencia_G=calcula_frecuencia();
-//!   output_high(OE);
-//!}
 
-//!void leer_frecuencia_color(int16 *frecuencia_R){
-//!   output_low(S2);
-//!   output_low(S3);
-//!   output_high(OE);
-//!   delay_ms(100);
-//!   output_low(OE);
-//!   delay_ms(10);
-//!   *frecuencia_R=calcula_frecuencia();
-//!   
-//!}
 void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B){
    output_high(OE);
    output_low(S2);
@@ -105,7 +85,7 @@ void main()
    int8 maximo=0;
    int8 direccion=0;
 
-//Setup_Oscillator parameter not selected from Intr Oscillator Config tab
+
    ext_int_edge(0,L_TO_H); //Flanco ascendente
    enable_interrupts(INT_EXT);
    clear_interrupt(INT_EXT); //Borramos el flag
@@ -117,6 +97,10 @@ void main()
    output_high(S1);
    while(true){
       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B);
+      frecuencia_R=frecuencia_R-offset_r;
+      frecuencia_G=frecuencia_G-offset_g;
+      frecuencia_B=frecuencia_B-offset_b;
+      
       dato=(int8)(frecuencia_R>>8);
       write_eeprom(direccion, dato);
       dato=(int8)(frecuencia_R);

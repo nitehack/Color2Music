@@ -5,15 +5,34 @@
 #define S3 PIN_B4
 #define OE PIN_B5
 
-//Hay que poner el mÃ¡ximo de frecuencia para medir tiempos muy cortos y el minimo de
+//Hay que poner el máximo de frecuencia para medir tiempos muy cortos y el minimo de
 // rango para que el error para medir la frecuencia con el metodo de medir
 // el periodo sea minimo ya que falla solo cuando son muy altas las frecuencias
 //Preescaler de 4 con minimo de 7 Hz
 // Si se desborda el timer poner una interrupcion y poner de frecuencia 0Hz
 //Poner reloj de 20 MHz externo
 
-//Posibles problemas!!: Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias
+//Informacion
+//-----------
+// Con 12 KHz
+//Maxima frecuencia para R: 13157 Hz 
+//Maxima frecuencia para B: 13157 Hz (En hexadecimal 3365 Hz)
+// Maxima frecuencia para G:  11111 Hz (En hexadecimal 2B67)
+//MinimaR:169 Hz (A9)
+// Minima G: 135 Hz (87)
+//Minima B: 150 Hz (96)
+
+//Que hay que hacer:
+//------------------
+//Corregir error de 0 y de ganancia para los 3 filtros
+//Posibles problemas!!: 
+//----------------------
+//Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias
+
 int16 tiempo=0;
+int8 offset_r=34;
+int8 offset_g=0;
+int8 offset_b=15;
 
 #INT_EXT
 void llega_pulso(void) {
@@ -85,6 +104,10 @@ void main()
    output_high(S1);
    while(true){
       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B);
+      frecuencia_R=frecuencia_R-offset_r;
+      frecuencia_G=frecuencia_G-offset_g;
+      frecuencia_B=frecuencia_B-offset_b;
+      
       dato=(int8)(frecuencia_R>>8);
       write_eeprom(direccion, dato);
       dato=(int8)(frecuencia_R);

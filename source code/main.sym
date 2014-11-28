@@ -1,7 +1,7 @@
-004-005 @READ_PROGRAM_MEMORY8.P1
-004     @WRITE_PROGRAM_MEMORY8.P2
-015     CCP_1_LOW
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
 015     CCP_1
+015     CCP_1_LOW
 016     CCP_1_HIGH
 020     @INTERRUPT_AREA
 021     @INTERRUPT_AREA
@@ -12,32 +12,35 @@
 026     @INTERRUPT_AREA
 027     @INTERRUPT_AREA
 028-029 tiempo
-02A-02B MAIN.frecuencia_R
-02C-02D MAIN.frecuencia_G
-02E-02F MAIN.frecuencia_B
-030-033 MAIN.tiempo_cal
-034     MAIN.dato
-035     MAIN.maximo
-036     MAIN.direccion
-037-038 leer_frecuencia_color.frecuencia_R
-037     MAIN.@SCRATCH1
-039-03A leer_frecuencia_color.frecuencia_G
-03B-03C leer_frecuencia_color.frecuencia_B
-03D     @delay_ms1.P1
-03D     leer_frecuencia_color.@SCRATCH1
-03E     leer_frecuencia_color.@SCRATCH2
-03F-040 calcula_frecuencia.tiempo_cal
-041-042 calcula_frecuencia.frecuencia
-043-046 @SFTOI.P1
-043-046 @DIVFF.P2
-043-044 @ITOF.P3
-047-04A @DIVFF.P1
-04B     @DIVFF.@SCRATCH1
-04C     @DIVFF.@SCRATCH2
-04D     @DIVFF.@SCRATCH3
-04E     @DIVFF.@SCRATCH4
-04F     @DIVFF.@SCRATCH5
-050     @DIVFF.@SCRATCH6
+02A     offset_r
+02B     offset_g
+02C     offset_b
+02D-02E MAIN.frecuencia_R
+02F-030 MAIN.frecuencia_G
+031-032 MAIN.frecuencia_B
+033-036 MAIN.tiempo_cal
+037     MAIN.dato
+038     MAIN.maximo
+039     MAIN.direccion
+03A-03B leer_frecuencia_color.frecuencia_R
+03A     MAIN.@SCRATCH1
+03C-03D leer_frecuencia_color.frecuencia_G
+03E-03F leer_frecuencia_color.frecuencia_B
+040     @delay_ms1.P1
+040     leer_frecuencia_color.@SCRATCH1
+041     leer_frecuencia_color.@SCRATCH2
+042-043 calcula_frecuencia.tiempo_cal
+044-045 calcula_frecuencia.frecuencia
+046-049 @SFTOI.P1
+046-047 @ITOF.P2
+046-049 @DIVFF.P3
+04A-04D @DIVFF.P1
+04E     @DIVFF.@SCRATCH1
+04F     @DIVFF.@SCRATCH2
+050     @DIVFF.@SCRATCH3
+051     @DIVFF.@SCRATCH4
+052     @DIVFF.@SCRATCH5
+053     @DIVFF.@SCRATCH6
 077     @SCRATCH
 078     @SCRATCH
 078     _RETURN_
@@ -65,7 +68,7 @@ User Memory space:
 User Memory space: 
 
 Project Directory:
-    C:\Nico\Teleco 4º\TCI\Codigo\
+    C:\Users\Ali\Documents\GitHub\Color2Music\source code\
 
 Project Files:
     main.c
@@ -73,7 +76,7 @@ Project Files:
     16F88.h
 
 Units:
-    C:\Nico\Teleco 4º\TCI\Codigo\main (main)
+    C:\Users\Ali\Documents\GitHub\Color2Music\source code\main (main)
 
 Compiler Settings:
     Processor:      PIC16F88
