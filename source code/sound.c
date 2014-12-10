@@ -1,3 +1,7 @@
+//Con esta libreria se pueden generar sonidos
+//La función genera sonido esta ya calculada para un reloj de 8 MHz para el rango 
+// de frecuencias que nos interesa para esta aplicación.
+//Habria que hacer una función más general.
 
 #define SIn 126
 #define LABn 133
@@ -11,6 +15,10 @@
 #define REn 212
 #define DOBn 225
 #define DOn 238
+
+void init_sound(){
+   setup_ccp1(CCP_PWM); //Indicamos que queremos usar el PWM
+}
 
 void genera_sonido(int8 sonido){
    int16 value;

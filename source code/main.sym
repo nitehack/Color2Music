@@ -1,7 +1,7 @@
 004     @WRITE_PROGRAM_MEMORY8.P1
 004-005 @READ_PROGRAM_MEMORY8.P2
-015     CCP_1
 015     CCP_1_LOW
+015     CCP_1
 016     CCP_1_HIGH
 020     @INTERRUPT_AREA
 021     @INTERRUPT_AREA
@@ -18,29 +18,34 @@
 02D-02E MAIN.frecuencia_R
 02F-030 MAIN.frecuencia_G
 031-032 MAIN.frecuencia_B
-033-036 MAIN.tiempo_cal
-037     MAIN.dato
-038     MAIN.maximo
-039     MAIN.direccion
-03A-03B leer_frecuencia_color.frecuencia_R
-03A     MAIN.@SCRATCH1
-03C-03D leer_frecuencia_color.frecuencia_G
-03E-03F leer_frecuencia_color.frecuencia_B
-040     @delay_ms1.P1
-040     leer_frecuencia_color.@SCRATCH1
-041     leer_frecuencia_color.@SCRATCH2
-042-043 calcula_frecuencia.tiempo_cal
-044-045 calcula_frecuencia.frecuencia
-046-049 @SFTOI.P1
-046-047 @ITOF.P2
-046-049 @DIVFF.P3
-04A-04D @DIVFF.P1
-04E     @DIVFF.@SCRATCH1
-04F     @DIVFF.@SCRATCH2
-050     @DIVFF.@SCRATCH3
-051     @DIVFF.@SCRATCH4
-052     @DIVFF.@SCRATCH5
-053     @DIVFF.@SCRATCH6
+033     MAIN.dato
+034     MAIN.maximo
+035     MAIN.direccion
+036     genera_sonido.sonido
+036-037 leer_frecuencia_color.frecuencia_R
+036     MAIN.@SCRATCH1
+037-038 genera_sonido.value
+038-039 leer_frecuencia_color.frecuencia_G
+039     genera_sonido.@SCRATCH1
+03A-03B leer_frecuencia_color.frecuencia_B
+03A     genera_sonido.@SCRATCH2
+03C     @delay_ms1.P1
+03C     leer_frecuencia_color.@SCRATCH1
+03D     leer_frecuencia_color.@SCRATCH2
+03E-03F calcula_frecuencia.tiempo_cal
+03E     leer_frecuencia_color.@SCRATCH3
+03F     leer_frecuencia_color.@SCRATCH4
+040-041 calcula_frecuencia.frecuencia
+042-045 @SFTOI.P1
+042-045 @DIVFF.P2
+042-043 @ITOF.P3
+046-049 @DIVFF.P1
+04A     @DIVFF.@SCRATCH1
+04B     @DIVFF.@SCRATCH2
+04C     @DIVFF.@SCRATCH3
+04D     @DIVFF.@SCRATCH4
+04E     @DIVFF.@SCRATCH5
+04F     @DIVFF.@SCRATCH6
 077     @SCRATCH
 078     @SCRATCH
 078     _RETURN_
@@ -48,19 +53,23 @@
 07A     @SCRATCH
 09C.6   C1OUT
 09C.7   C2OUT
-10D-10E @WRITE_PROGRAM_MEMORY8.P1
-10D-10E @READ_PROGRAM_MEMORY8.P2
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
 
 ROM Allocation:
-0042  @delay_ms1
+005D  @delay_ms1
+0055  init_sound
+0232  genera_sonido
 0031  llega_pulso
-0056  calcula_frecuencia
-005F  @ITOF
-008A  @DIVFF
-015B  @SFTOI
-0182  leer_frecuencia_color
-01FC  MAIN
-01FC  @cinit
+0042  init_freq
+0071  calcula_frecuencia
+007A  @ITOF
+00A5  @DIVFF
+0176  @SFTOI
+0042  init_tcs
+019D  leer_frecuencia_color
+0263  MAIN
+0263  @cinit
 
 
 User Memory space: 
@@ -74,6 +83,9 @@ Project Files:
     main.c
     main.h
     16F88.h
+    sound.c
+    color.c
+    frequency.c
 
 Units:
     C:\Users\Ali\Documents\GitHub\Color2Music\source code\main (main)

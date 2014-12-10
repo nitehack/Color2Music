@@ -1,16 +1,22 @@
 #include "main.h"
-#define S0 PIN_B1
-#define S1 PIN_B2
-#define S2 PIN_B3
-#define S3 PIN_B4
-#define OE PIN_B5
+#include "sound.c"
+#include "color.c"
 
+//COLOR2MUSIC
+//Autor: Nicolás Guerrero García (Nitehack)
+//Resumen: Transforma un sonido físico a una nota músical, pudiendo así generar musica con diferentes objetos de diferentes colores.
+
+
+
+//ANOTACIONES:
 //Hay que poner el máximo de frecuencia para medir tiempos muy cortos y el minimo de
 // rango para que el error para medir la frecuencia con el metodo de medir
 // el periodo sea minimo ya que falla solo cuando son muy altas las frecuencias
 //Preescaler de 4 con minimo de 7 Hz
 // Si se desborda el timer poner una interrupcion y poner de frecuencia 0Hz
 //Poner reloj de 20 MHz externo
+//Al final el reloj va a ser el de 8 MHz interno
+// Se puede poner un umbral para considerar colo o no
 
 //Informacion
 //-----------
@@ -28,57 +34,17 @@
 //Posibles problemas!!: 
 //----------------------
 //Que el contador del timer se desborde por que pase demasiado tiempo , es decir cuando sean bajas frecuencias
-
-int16 tiempo=0;
-int8 offset_r=34;
-int8 offset_g=0;
-int8 offset_b=15;
-
-#INT_EXT
-void llega_pulso(void) {
-   tiempo=get_timer1(); //
-   set_timer1(0); //reinicia para nuevo pulso
-}
-
-int16 calcula_frecuencia(){
-   int16 tiempo_cal;
-   int16 frecuencia;
-   tiempo_cal=tiempo*2; //Es 4ciclos*T*4 del preescaler*ELm timer
-   frecuencia=1000000.0/tiempo_cal; //esto es porque 1/(2N*micro)=(10^6)/2N
-   return frecuencia;
-}
+//
+//Sonido
+//------
+//Espectro de frecuencias de sonido: 30 Hz a 15 KHz
+//PeridoPWM= (periodo_TMR2+1)·4·Tosc· prescaler_TMR2
+//Hay que poner el preescaler el mas alto (16) ya que buscamos el myor rango entre 30 y 15 KHz, y para conseguir
+//He usado desde 523 Hz hasta 980 Hz, y se puede usar un total de 12 notas
 
 
-void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B){
-   output_high(OE);
-   output_low(S2);
-   output_low(S3);
-   
-   delay_ms(1);
-   output_low(OE);
-   delay_ms(10);
-   *frecuencia_R=calcula_frecuencia();
-   
-   //Azul
-   output_high(OE);
-   output_low(S2);
-   output_high(S3);
-   
-   delay_ms(1);
-   output_low(OE);
-   delay_ms(10);
-   *frecuencia_B=calcula_frecuencia();
-   
-   //Verde
-   output_high(OE);
-   output_high(S2);
-   output_high(S3);
-   
-   delay_ms(1);
-   output_low(OE);
-   delay_ms(10);
-   *frecuencia_G=calcula_frecuencia();
-}
+//Para corregir el offset del sensor
+
 //Capturar flanco-> contar tiempo-> Capturar flanco-> Parar tiempo-> Leer tiempo-> Cambiar a frecuencia
 
 
@@ -87,21 +53,22 @@ void main()
    int16 frecuencia_R=0;
    int16 frecuencia_G=0;
    int16 frecuencia_B=0;
-   int32 tiempo_cal=0;
    int8 dato=0;
    int8 maximo=0;
    int8 direccion=0;
 
-
-   ext_int_edge(0,L_TO_H); //Flanco ascendente
-   enable_interrupts(INT_EXT);
-   clear_interrupt(INT_EXT); //Borramos el flag
-   enable_interrupts(GLOBAL);
-   // TODO: USER CODE!!
-   setup_timer_1(T1_INTERNAL | T1_DIV_BY_4);//para llegar a medir frecuencias bajas
+//Configuracion
+//!   ext_int_edge(0,L_TO_H); //Flanco ascendente
+//!   enable_interrupts(INT_EXT);
+//!   clear_interrupt(INT_EXT); //Borramos el flag
+//!   enable_interrupts(GLOBAL);
+//!   setup_timer_1(T1_INTERNAL | T1_DIV_BY_4);//para llegar a medir frecuencias bajas
+//!
+//
    
-   output_low(S0);// Para seleccionar el rango de 12 KHz
-   output_high(S1);
+   init_tcs();
+   init_sound();
+   
    while(true){
       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B);
       frecuencia_R=frecuencia_R-offset_r;
@@ -151,22 +118,26 @@ void main()
             output_low(PIN_A1);
             output_low(PIN_A2);
             output_high(PIN_A0);
+            genera_sonido(DOn);
             break;
          case 2:
             output_low(PIN_A0);
             output_low(PIN_A2);
             output_high(PIN_A1);
+            genera_sonido(REn);
             break;
             
          case 3:
             output_low(PIN_A0);
             output_low(PIN_A1);
             output_high(PIN_A2);
+            genera_sonido(MIn);
             break;
          default:
             output_low(PIN_A0);
             output_low(PIN_A1);
             output_low(PIN_A2);
+            genera_sonido(FAn);
             break;
       }
       if (direccion>=240){

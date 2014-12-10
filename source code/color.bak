@@ -13,13 +13,6 @@ int8 offset_r=34;
 int8 offset_g=0;
 int8 offset_b=15;
 
-//Habria que hacer una función "init_tcs" mas general para poder seleccionar otros rangos
-void init_tcs(){
-   init_freq();
-   output_low(S0);// Para seleccionar el rango de 12 KHz
-   output_high(S1);
-}
-
 void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B){
    output_high(OE);
    output_low(S2);

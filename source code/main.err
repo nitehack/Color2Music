@@ -1,3 +1,2 @@
->>> Warning 202 "main.c" Line 90(10,20): Variable never used:   tiempo_cal
-      Memory usage:   ROM=23%      RAM=9% - 15%
-      0 Errors,  1 Warnings.
+      Memory usage:   ROM=25%      RAM=8% - 14%
+      0 Errors,  0 Warnings.

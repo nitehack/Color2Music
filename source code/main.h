@@ -14,6 +14,7 @@
 #FUSES FCMEN                    //Fail-safe clock monitor enabled
 #FUSES IESO                     //Internal External Switch Over mode enabled
 #FUSES RESERVED                 //Used to set the reserved FUSE bits
+#FUSES CCPB3                    // Ponemos este fuse para que el PWM salga por la patilla 9 ya que  por defecto está en la 6 y esa ya se usa
 
 #use delay(clock=8000000)
 
