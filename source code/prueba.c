@@ -66,38 +66,32 @@ void main()
    while(true){
       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B, &frecuencia_C);
       //Atencion!! Para hacer debug hay que tener en cuenta que antes la funcion esa le resta el offset que tiene luego la frecuencia es distinta 
-//!      dato=(int8)(frecuencia_R>>8);
-//!      write_eeprom(direccion, dato);
-//!      dato=(int8)(frecuencia_R);
-//!      write_eeprom(direccion+1, dato);
-//!      
-//!      dato=(int8)(frecuencia_G>>8);
-//!      write_eeprom(direccion+2, dato);
-//!      dato=(int8)(frecuencia_G);
-//!      write_eeprom(direccion+3, dato);
-//!      
-//!      dato=(int8)(frecuencia_B>>8);
-//!      write_eeprom(direccion+4, dato);
-//!      dato=(int8)(frecuencia_B);
-//!      write_eeprom(direccion+5, dato);
-//!      
-//!      dato=(int8)(frecuencia_C>>8);
-//!      write_eeprom(direccion+6, dato);
-//!      dato=(int8)(frecuencia_C);
-//!      write_eeprom(direccion+7, dato);
-//!      
-//!      direccion=direccion+9;
-//!      if (direccion>=240){
-//!         direccion=0;
-//!      }
+      dato=(int8)(frecuencia_R>>8);
+      write_eeprom(direccion, dato);
+      dato=(int8)(frecuencia_R);
+      write_eeprom(direccion+1, dato);
       
-      color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G,frecuencia_C);
-      write_eeprom(direccion, color);
-      direccion++;
-      if(direccion>240){
+      dato=(int8)(frecuencia_G>>8);
+      write_eeprom(direccion+2, dato);
+      dato=(int8)(frecuencia_G);
+      write_eeprom(direccion+3, dato);
+      
+      dato=(int8)(frecuencia_B>>8);
+      write_eeprom(direccion+4, dato);
+      dato=(int8)(frecuencia_B);
+      write_eeprom(direccion+5, dato);
+      
+      dato=(int8)(frecuencia_C>>8);
+      write_eeprom(direccion+6, dato);
+      dato=(int8)(frecuencia_C);
+      write_eeprom(direccion+7, dato);
+      
+      direccion=direccion+9;
+      if (direccion>=240){
          direccion=0;
       }
       
+      //color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G);
 //!      genera_sonido(DOn);
 //!      delay_ms(2000);
 //!      genera_sonido(REn);

@@ -1,17 +1,17 @@
-CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
+CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 15:45
 
                Filename: C:\Users\Ali\Documents\GitHub\Color2Music\source code\main.lst
 
-               ROM used: 1532 words (37%)
+               ROM used: 1368 words (33%)
                          Largest free fragment is 2048
-               RAM used: 45 (12%) at main() level
-                         86 (23%) worst case
+               RAM used: 46 (12%) at main() level
+                         90 (24%) worst case
                Stack:    4 worst case (3 in main + 1 for interrupts)
 
 *
-0000:  MOVLW  05
+0000:  MOVLW  04
 0001:  MOVWF  0A
-0002:  GOTO   533
+0002:  GOTO   4CC
 0003:  NOP
 0004:  MOVWF  7F
 0005:  SWAPF  03,W
@@ -83,7 +83,7 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 ....................  
 .................... #use delay(clock=8000000) 
 *
-005D:  MOVLW  59
+005D:  MOVLW  61
 005E:  MOVWF  04
 005F:  BCF    03.7
 0060:  MOVF   00,W
@@ -139,74 +139,19 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 005A:  MOVWF  17
 .................... } 
 005B:  BCF    0A.3
-005C:  GOTO   575 (RETURN)
+005C:  GOTO   513 (RETURN)
 ....................  
 .................... void genera_sonido(int8 sonido){ 
 ....................    int16 value; 
 ....................    if(sonido!=0){ 
-*
-04FD:  MOVF   47,F
-04FE:  BTFSC  03.2
-04FF:  GOTO   531
 ....................       value=(4*((int16)sonido+1))/2; 
-0500:  CLRF   4B
-0501:  MOVLW  01
-0502:  ADDWF  47,W
-0503:  MOVWF  78
-0504:  MOVF   4B,W
-0505:  MOVWF  7A
-0506:  BTFSC  03.0
-0507:  INCF   7A,F
-0508:  RLF    78,W
-0509:  MOVWF  4A
-050A:  RLF    7A,W
-050B:  MOVWF  4B
-050C:  RLF    4A,F
-050D:  RLF    4B,F
-050E:  MOVLW  FC
-050F:  ANDWF  4A,F
-0510:  BCF    03.0
-0511:  RRF    4B,W
-0512:  MOVWF  49
-0513:  RRF    4A,W
-0514:  MOVWF  48
 ....................       setup_timer_2(T2_DIV_BY_16, sonido ,4);  
-0515:  MOVLW  18
-0516:  MOVWF  78
-0517:  IORLW  06
-0518:  MOVWF  12
-0519:  MOVF   47,W
-051A:  BSF    03.5
-051B:  MOVWF  12
 ....................       set_pwm1_duty(value); //se establece el ciclo de trabajo 
-051C:  BCF    03.5
-051D:  MOVF   49,W
-051E:  MOVWF  79
-051F:  MOVF   48,W
-0520:  MOVWF  78
-0521:  RRF    79,F
-0522:  RRF    78,F
-0523:  RRF    79,F
-0524:  RRF    78,F
-0525:  RRF    79,F
-0526:  MOVF   78,W
-0527:  MOVWF  15
-0528:  RRF    79,F
-0529:  RRF    79,W
-052A:  ANDLW  30
-052B:  MOVWF  77
-052C:  MOVF   17,W
-052D:  ANDLW  CF
-052E:  IORWF  77,W
-052F:  MOVWF  17
 ....................    } 
 ....................    else{ 
-0530:  GOTO   532
 ....................       set_pwm1_duty(0); 
-0531:  CLRF   15
 ....................    } 
 .................... } 
-0532:  RETURN
 ....................  
 .................... #include "color.c" 
 .................... /* 
@@ -261,53 +206,53 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 ....................    int16 frecuencia; 
 ....................    tiempo_cal=tiempo*2; //Es 4ciclos*T*4 del preescaler*ELm timer 
 *
-0177:  BCF    03.0
-0178:  RLF    28,W
-0179:  MOVWF  59
-017A:  RLF    29,W
-017B:  MOVWF  5A
+00AD:  BCF    03.0
+00AE:  RLF    28,W
+00AF:  MOVWF  63
+00B0:  RLF    29,W
+00B1:  MOVWF  64
 ....................    frecuencia=1000000.0/tiempo_cal; //esto es porque 1/(2N*micro)=(10^6)/2N 
-017C:  MOVF   5A,W
-017D:  MOVWF  64
-017E:  MOVF   59,W
-017F:  MOVWF  63
-0180:  CALL   071
-0181:  CLRF   66
-0182:  MOVLW  24
-0183:  MOVWF  65
-0184:  MOVLW  74
-0185:  MOVWF  64
-0186:  MOVLW  92
-0187:  MOVWF  63
-0188:  MOVF   7A,W
-0189:  MOVWF  6A
-018A:  MOVF   79,W
-018B:  MOVWF  69
-018C:  MOVF   78,W
-018D:  MOVWF  68
-018E:  MOVF   77,W
-018F:  MOVWF  67
-0190:  CALL   08E
-0191:  MOVF   7A,W
-0192:  MOVWF  60
-0193:  MOVF   79,W
-0194:  MOVWF  5F
-0195:  MOVF   78,W
-0196:  MOVWF  5E
-0197:  MOVF   77,W
-0198:  MOVWF  5D
-0199:  CALL   158
-019A:  MOVF   79,W
-019B:  MOVWF  5C
-019C:  MOVF   78,W
-019D:  MOVWF  5B
+00B2:  MOVF   64,W
+00B3:  MOVWF  68
+00B4:  MOVF   63,W
+00B5:  MOVWF  67
+00B6:  CALL   071
+00B7:  CLRF   6A
+00B8:  MOVLW  24
+00B9:  MOVWF  69
+00BA:  MOVLW  74
+00BB:  MOVWF  68
+00BC:  MOVLW  92
+00BD:  MOVWF  67
+00BE:  MOVF   7A,W
+00BF:  MOVWF  6E
+00C0:  MOVF   79,W
+00C1:  MOVWF  6D
+00C2:  MOVF   78,W
+00C3:  MOVWF  6C
+00C4:  MOVF   77,W
+00C5:  MOVWF  6B
+*
+018F:  MOVF   7A,W
+0190:  MOVWF  6A
+0191:  MOVF   79,W
+0192:  MOVWF  69
+0193:  MOVF   78,W
+0194:  MOVWF  68
+0195:  MOVF   77,W
+0196:  MOVWF  67
+0197:  CALL   08E
+0198:  MOVF   79,W
+0199:  MOVWF  66
+019A:  MOVF   78,W
+019B:  MOVWF  65
 ....................    return frecuencia; 
-019E:  MOVF   5B,W
-019F:  MOVWF  78
-01A0:  MOVF   5C,W
-01A1:  MOVWF  79
+019C:  MOVF   65,W
+019D:  MOVWF  78
+019E:  MOVF   66,W
+019F:  MOVWF  79
 .................... } 
-01A2:  RETURN
+01A0:  RETURN
 ....................  
 ....................  
 ....................  
@@ -321,12 +266,12 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 .................... #ENDIF 
 ....................  
 .................... float nivel=1.53; 
-.................... int8 offset_r=167;//; 
-.................... int8 offset_g=133; 
-.................... int8 offset_b=149;//15; 
-.................... float gan_r=1; 
-.................... float gan_g=1.22408; 
-.................... float gan_b=1.08115; 
+.................... int8 offset_r=167;//167 
+.................... int8 offset_g=133;//133 
+.................... int8 offset_b=149;//149 
+.................... float gan_r=0.654678;//1 
+.................... float gan_g=0.812162;//1.22408 
+.................... float gan_b=0.739696;//1.08115 
 ....................  
 .................... //Habria que hacer una función "init_tcs" mas general para poder seleccionar otros rangos 
 .................... void init_tcs(){ 
@@ -344,809 +289,855 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 0052:  BSF    06.2
 .................... } 
 0053:  BCF    0A.3
-0054:  GOTO   574 (RETURN)
+0054:  GOTO   512 (RETURN)
 ....................  
-.................... void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B){ 
+.................... void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B, int16 *frecuencia_C){ 
 ....................    float f_R_inter; 
 ....................    float f_G_inter; 
 ....................    float f_B_inter; 
+....................    float f_C_inter; 
 ....................     
 ....................    output_high(OE); 
 *
-0257:  BSF    03.5
-0258:  BCF    06.5
-0259:  BCF    03.5
-025A:  BSF    06.5
+0255:  BSF    03.5
+0256:  BCF    06.5
+0257:  BCF    03.5
+0258:  BSF    06.5
 ....................    output_low(S2); 
-025B:  BSF    03.5
+0259:  BSF    03.5
+025A:  BCF    06.6
+025B:  BCF    03.5
 025C:  BCF    06.6
-025D:  BCF    03.5
-025E:  BCF    06.6
 ....................    output_low(S3); 
-025F:  BSF    03.5
+025D:  BSF    03.5
+025E:  BCF    06.4
+025F:  BCF    03.5
 0260:  BCF    06.4
-0261:  BCF    03.5
-0262:  BCF    06.4
 ....................     
 ....................    delay_ms(1); 
-0263:  MOVLW  01
-0264:  MOVWF  59
-0265:  CALL   05D
+0261:  MOVLW  01
+0262:  MOVWF  61
+0263:  CALL   05D
 ....................    output_low(OE); 
-0266:  BSF    03.5
+0264:  BSF    03.5
+0265:  BCF    06.5
+0266:  BCF    03.5
 0267:  BCF    06.5
-0268:  BCF    03.5
-0269:  BCF    06.5
 ....................    delay_ms(10); 
-026A:  MOVLW  0A
-026B:  MOVWF  59
-026C:  CALL   05D
+0268:  MOVLW  0A
+0269:  MOVWF  61
+026A:  CALL   05D
 ....................    f_R_inter=calcula_frecuencia()-offset_r; 
-026D:  CALL   177
-026E:  MOVF   79,W
-026F:  MOVWF  5A
-0270:  MOVF   78,W
-0271:  MOVWF  59
-0272:  MOVF   2E,W
-0273:  SUBWF  78,W
-0274:  MOVWF  77
-0275:  MOVF   79,W
-0276:  MOVWF  7A
-0277:  MOVLW  00
-0278:  BTFSS  03.0
-0279:  MOVLW  01
-027A:  SUBWF  7A,F
-027B:  MOVF   77,W
-027C:  MOVWF  63
-027D:  MOVF   7A,W
-027E:  MOVWF  64
-027F:  CALL   071
-0280:  MOVF   7A,W
-0281:  MOVWF  50
-0282:  MOVF   79,W
-0283:  MOVWF  4F
-0284:  MOVF   78,W
-0285:  MOVWF  4E
-0286:  MOVF   77,W
-0287:  MOVWF  4D
+026B:  CALL   0AD
+026C:  MOVF   79,W
+026D:  MOVWF  62
+026E:  MOVF   78,W
+026F:  MOVWF  61
+0270:  MOVF   2E,W
+0271:  SUBWF  78,W
+0272:  MOVWF  77
+0273:  MOVF   79,W
+0274:  MOVWF  7A
+0275:  MOVLW  00
+0276:  BTFSS  03.0
+0277:  MOVLW  01
+0278:  SUBWF  7A,F
+0279:  MOVF   77,W
+027A:  MOVWF  67
+027B:  MOVF   7A,W
+027C:  MOVWF  68
+027D:  CALL   071
+027E:  MOVF   7A,W
+027F:  MOVWF  54
+0280:  MOVF   79,W
+0281:  MOVWF  53
+0282:  MOVF   78,W
+0283:  MOVWF  52
+0284:  MOVF   77,W
+0285:  MOVWF  51
 ....................    f_R_inter=f_R_inter*gan_r; 
-0288:  MOVF   50,W
-0289:  MOVWF  5C
-028A:  MOVF   4F,W
-028B:  MOVWF  5B
-028C:  MOVF   4E,W
-028D:  MOVWF  5A
-028E:  MOVF   4D,W
-028F:  MOVWF  59
-0290:  MOVF   34,W
-0291:  MOVWF  60
-0292:  MOVF   33,W
-0293:  MOVWF  5F
-0294:  MOVF   32,W
-0295:  MOVWF  5E
-0296:  MOVF   31,W
-0297:  MOVWF  5D
-0298:  CALL   1A3
-0299:  MOVF   7A,W
-029A:  MOVWF  50
-029B:  MOVF   79,W
-029C:  MOVWF  4F
-029D:  MOVF   78,W
-029E:  MOVWF  4E
-029F:  MOVF   77,W
-02A0:  MOVWF  4D
+0286:  MOVF   54,W
+0287:  MOVWF  64
+0288:  MOVF   53,W
+0289:  MOVWF  63
+028A:  MOVF   52,W
+028B:  MOVWF  62
+028C:  MOVF   51,W
+028D:  MOVWF  61
+028E:  MOVF   34,W
+028F:  MOVWF  68
+0290:  MOVF   33,W
+0291:  MOVWF  67
+0292:  MOVF   32,W
+0293:  MOVWF  66
+0294:  MOVF   31,W
+0295:  MOVWF  65
+0296:  CALL   1A1
+0297:  MOVF   7A,W
+0298:  MOVWF  54
+0299:  MOVF   79,W
+029A:  MOVWF  53
+029B:  MOVF   78,W
+029C:  MOVWF  52
+029D:  MOVF   77,W
+029E:  MOVWF  51
 ....................     
 ....................    if(f_R_inter<0){ 
-02A1:  MOVF   50,W
-02A2:  MOVWF  62
-02A3:  MOVF   4F,W
-02A4:  MOVWF  61
-02A5:  MOVF   4E,W
-02A6:  MOVWF  60
-02A7:  MOVF   4D,W
-02A8:  MOVWF  5F
+029F:  MOVF   54,W
+02A0:  MOVWF  64
+02A1:  MOVF   53,W
+02A2:  MOVWF  63
+02A3:  MOVF   52,W
+02A4:  MOVWF  62
+02A5:  MOVF   51,W
+02A6:  MOVWF  61
+02A7:  CLRF   68
+02A8:  CLRF   67
 02A9:  CLRF   66
 02AA:  CLRF   65
-02AB:  CLRF   64
-02AC:  CLRF   63
-02AD:  CALL   218
-02AE:  BTFSS  03.0
-02AF:  GOTO   2BA
+02AB:  CALL   216
+02AC:  BTFSS  03.0
+02AD:  GOTO   2B8
 ....................       *frecuencia_R=0;    
-02B0:  MOVF   47,W
-02B1:  MOVWF  04
-02B2:  BCF    03.7
-02B3:  BTFSC  48.0
-02B4:  BSF    03.7
-02B5:  INCF   04,F
+02AE:  MOVF   49,W
+02AF:  MOVWF  04
+02B0:  BCF    03.7
+02B1:  BTFSC  4A.0
+02B2:  BSF    03.7
+02B3:  INCF   04,F
+02B4:  CLRF   00
+02B5:  DECF   04,F
 02B6:  CLRF   00
-02B7:  DECF   04,F
-02B8:  CLRF   00
 ....................    } 
 ....................    else{ 
-02B9:  GOTO   2D0
+02B7:  GOTO   2CE
 ....................       *frecuencia_R=(int16)f_R_inter; 
-02BA:  MOVF   48,W
-02BB:  MOVWF  7A
-02BC:  MOVF   47,W
-02BD:  MOVWF  04
-02BE:  BCF    03.7
-02BF:  BTFSC  48.0
-02C0:  BSF    03.7
-02C1:  MOVF   50,W
-02C2:  MOVWF  60
-02C3:  MOVF   4F,W
-02C4:  MOVWF  5F
-02C5:  MOVF   4E,W
-02C6:  MOVWF  5E
-02C7:  MOVF   4D,W
-02C8:  MOVWF  5D
-02C9:  CALL   158
-02CA:  INCF   04,F
-02CB:  MOVF   79,W
-02CC:  MOVWF  00
-02CD:  DECF   04,F
-02CE:  MOVF   78,W
-02CF:  MOVWF  00
+02B8:  MOVF   4A,W
+02B9:  MOVWF  7A
+02BA:  MOVF   49,W
+02BB:  MOVWF  04
+02BC:  BCF    03.7
+02BD:  BTFSC  4A.0
+02BE:  BSF    03.7
+02BF:  MOVF   54,W
+02C0:  MOVWF  6A
+02C1:  MOVF   53,W
+02C2:  MOVWF  69
+02C3:  MOVF   52,W
+02C4:  MOVWF  68
+02C5:  MOVF   51,W
+02C6:  MOVWF  67
+02C7:  CALL   08E
+02C8:  INCF   04,F
+02C9:  MOVF   79,W
+02CA:  MOVWF  00
+02CB:  DECF   04,F
+02CC:  MOVF   78,W
+02CD:  MOVWF  00
 ....................    } 
 ....................     
 ....................     
 ....................    //Azul 
 ....................    output_high(OE); 
-02D0:  BSF    03.5
-02D1:  BCF    06.5
-02D2:  BCF    03.5
-02D3:  BSF    06.5
+02CE:  BSF    03.5
+02CF:  BCF    06.5
+02D0:  BCF    03.5
+02D1:  BSF    06.5
 ....................    output_low(S2); 
-02D4:  BSF    03.5
+02D2:  BSF    03.5
+02D3:  BCF    06.6
+02D4:  BCF    03.5
 02D5:  BCF    06.6
-02D6:  BCF    03.5
-02D7:  BCF    06.6
 ....................    output_high(S3); 
-02D8:  BSF    03.5
-02D9:  BCF    06.4
-02DA:  BCF    03.5
-02DB:  BSF    06.4
+02D6:  BSF    03.5
+02D7:  BCF    06.4
+02D8:  BCF    03.5
+02D9:  BSF    06.4
 ....................     
 ....................    delay_ms(1); 
-02DC:  MOVLW  01
-02DD:  MOVWF  59
-02DE:  CALL   05D
+02DA:  MOVLW  01
+02DB:  MOVWF  61
+02DC:  CALL   05D
 ....................    output_low(OE); 
-02DF:  BSF    03.5
+02DD:  BSF    03.5
+02DE:  BCF    06.5
+02DF:  BCF    03.5
 02E0:  BCF    06.5
-02E1:  BCF    03.5
-02E2:  BCF    06.5
 ....................    delay_ms(10); 
-02E3:  MOVLW  0A
-02E4:  MOVWF  59
-02E5:  CALL   05D
+02E1:  MOVLW  0A
+02E2:  MOVWF  61
+02E3:  CALL   05D
 ....................    f_B_inter=calcula_frecuencia()-offset_b; 
-02E6:  CALL   177
-02E7:  MOVF   79,W
-02E8:  MOVWF  5A
-02E9:  MOVF   78,W
-02EA:  MOVWF  59
-02EB:  MOVF   30,W
-02EC:  SUBWF  78,W
-02ED:  MOVWF  77
-02EE:  MOVF   79,W
-02EF:  MOVWF  7A
-02F0:  MOVLW  00
-02F1:  BTFSS  03.0
-02F2:  MOVLW  01
-02F3:  SUBWF  7A,F
-02F4:  MOVF   77,W
-02F5:  MOVWF  63
-02F6:  MOVF   7A,W
-02F7:  MOVWF  64
-02F8:  CALL   071
-02F9:  MOVF   7A,W
-02FA:  MOVWF  58
-02FB:  MOVF   79,W
-02FC:  MOVWF  57
-02FD:  MOVF   78,W
-02FE:  MOVWF  56
-02FF:  MOVF   77,W
-0300:  MOVWF  55
+02E4:  CALL   0AD
+02E5:  MOVF   79,W
+02E6:  MOVWF  62
+02E7:  MOVF   78,W
+02E8:  MOVWF  61
+02E9:  MOVF   30,W
+02EA:  SUBWF  78,W
+02EB:  MOVWF  77
+02EC:  MOVF   79,W
+02ED:  MOVWF  7A
+02EE:  MOVLW  00
+02EF:  BTFSS  03.0
+02F0:  MOVLW  01
+02F1:  SUBWF  7A,F
+02F2:  MOVF   77,W
+02F3:  MOVWF  67
+02F4:  MOVF   7A,W
+02F5:  MOVWF  68
+02F6:  CALL   071
+02F7:  MOVF   7A,W
+02F8:  MOVWF  5C
+02F9:  MOVF   79,W
+02FA:  MOVWF  5B
+02FB:  MOVF   78,W
+02FC:  MOVWF  5A
+02FD:  MOVF   77,W
+02FE:  MOVWF  59
 ....................    f_B_inter=f_B_inter*gan_b; 
-0301:  MOVF   58,W
-0302:  MOVWF  5C
-0303:  MOVF   57,W
-0304:  MOVWF  5B
-0305:  MOVF   56,W
-0306:  MOVWF  5A
-0307:  MOVF   55,W
-0308:  MOVWF  59
-0309:  MOVF   3C,W
-030A:  MOVWF  60
-030B:  MOVF   3B,W
-030C:  MOVWF  5F
-030D:  MOVF   3A,W
-030E:  MOVWF  5E
-030F:  MOVF   39,W
-0310:  MOVWF  5D
-0311:  CALL   1A3
-0312:  MOVF   7A,W
-0313:  MOVWF  58
-0314:  MOVF   79,W
-0315:  MOVWF  57
-0316:  MOVF   78,W
-0317:  MOVWF  56
-0318:  MOVF   77,W
-0319:  MOVWF  55
+02FF:  MOVF   5C,W
+0300:  MOVWF  64
+0301:  MOVF   5B,W
+0302:  MOVWF  63
+0303:  MOVF   5A,W
+0304:  MOVWF  62
+0305:  MOVF   59,W
+0306:  MOVWF  61
+0307:  MOVF   3C,W
+0308:  MOVWF  68
+0309:  MOVF   3B,W
+030A:  MOVWF  67
+030B:  MOVF   3A,W
+030C:  MOVWF  66
+030D:  MOVF   39,W
+030E:  MOVWF  65
+030F:  CALL   1A1
+0310:  MOVF   7A,W
+0311:  MOVWF  5C
+0312:  MOVF   79,W
+0313:  MOVWF  5B
+0314:  MOVF   78,W
+0315:  MOVWF  5A
+0316:  MOVF   77,W
+0317:  MOVWF  59
 ....................    if(f_B_inter<0){ 
-031A:  MOVF   58,W
-031B:  MOVWF  62
-031C:  MOVF   57,W
-031D:  MOVWF  61
-031E:  MOVF   56,W
-031F:  MOVWF  60
-0320:  MOVF   55,W
-0321:  MOVWF  5F
+0318:  MOVF   5C,W
+0319:  MOVWF  64
+031A:  MOVF   5B,W
+031B:  MOVWF  63
+031C:  MOVF   5A,W
+031D:  MOVWF  62
+031E:  MOVF   59,W
+031F:  MOVWF  61
+0320:  CLRF   68
+0321:  CLRF   67
 0322:  CLRF   66
 0323:  CLRF   65
-0324:  CLRF   64
-0325:  CLRF   63
-0326:  CALL   218
-0327:  BTFSS  03.0
-0328:  GOTO   333
+0324:  CALL   216
+0325:  BTFSS  03.0
+0326:  GOTO   331
 ....................       *frecuencia_B=0;    
-0329:  MOVF   4B,W
-032A:  MOVWF  04
-032B:  BCF    03.7
-032C:  BTFSC  4C.0
-032D:  BSF    03.7
-032E:  INCF   04,F
+0327:  MOVF   4D,W
+0328:  MOVWF  04
+0329:  BCF    03.7
+032A:  BTFSC  4E.0
+032B:  BSF    03.7
+032C:  INCF   04,F
+032D:  CLRF   00
+032E:  DECF   04,F
 032F:  CLRF   00
-0330:  DECF   04,F
-0331:  CLRF   00
 ....................    } 
 ....................    else{ 
-0332:  GOTO   349
+0330:  GOTO   347
 ....................       *frecuencia_B=(int16)f_B_inter; 
-0333:  MOVF   4C,W
-0334:  MOVWF  7A
-0335:  MOVF   4B,W
-0336:  MOVWF  04
-0337:  BCF    03.7
-0338:  BTFSC  4C.0
-0339:  BSF    03.7
-033A:  MOVF   58,W
-033B:  MOVWF  60
-033C:  MOVF   57,W
-033D:  MOVWF  5F
-033E:  MOVF   56,W
-033F:  MOVWF  5E
-0340:  MOVF   55,W
-0341:  MOVWF  5D
-0342:  CALL   158
-0343:  INCF   04,F
-0344:  MOVF   79,W
-0345:  MOVWF  00
-0346:  DECF   04,F
-0347:  MOVF   78,W
-0348:  MOVWF  00
+0331:  MOVF   4E,W
+0332:  MOVWF  7A
+0333:  MOVF   4D,W
+0334:  MOVWF  04
+0335:  BCF    03.7
+0336:  BTFSC  4E.0
+0337:  BSF    03.7
+0338:  MOVF   5C,W
+0339:  MOVWF  6A
+033A:  MOVF   5B,W
+033B:  MOVWF  69
+033C:  MOVF   5A,W
+033D:  MOVWF  68
+033E:  MOVF   59,W
+033F:  MOVWF  67
+0340:  CALL   08E
+0341:  INCF   04,F
+0342:  MOVF   79,W
+0343:  MOVWF  00
+0344:  DECF   04,F
+0345:  MOVF   78,W
+0346:  MOVWF  00
 ....................    } 
 ....................     
 ....................    //Verde 
 ....................    output_high(OE); 
-0349:  BSF    03.5
-034A:  BCF    06.5
-034B:  BCF    03.5
-034C:  BSF    06.5
+0347:  BSF    03.5
+0348:  BCF    06.5
+0349:  BCF    03.5
+034A:  BSF    06.5
 ....................    output_high(S2); 
-034D:  BSF    03.5
-034E:  BCF    06.6
-034F:  BCF    03.5
-0350:  BSF    06.6
+034B:  BSF    03.5
+034C:  BCF    06.6
+034D:  BCF    03.5
+034E:  BSF    06.6
 ....................    output_high(S3); 
-0351:  BSF    03.5
-0352:  BCF    06.4
-0353:  BCF    03.5
-0354:  BSF    06.4
+034F:  BSF    03.5
+0350:  BCF    06.4
+0351:  BCF    03.5
+0352:  BSF    06.4
 ....................     
 ....................    delay_ms(1); 
-0355:  MOVLW  01
-0356:  MOVWF  59
-0357:  CALL   05D
+0353:  MOVLW  01
+0354:  MOVWF  61
+0355:  CALL   05D
 ....................    output_low(OE); 
-0358:  BSF    03.5
+0356:  BSF    03.5
+0357:  BCF    06.5
+0358:  BCF    03.5
 0359:  BCF    06.5
-035A:  BCF    03.5
-035B:  BCF    06.5
 ....................    delay_ms(10); 
-035C:  MOVLW  0A
-035D:  MOVWF  59
-035E:  CALL   05D
+035A:  MOVLW  0A
+035B:  MOVWF  61
+035C:  CALL   05D
 ....................    f_G_inter=calcula_frecuencia()-offset_g; 
-035F:  CALL   177
-0360:  MOVF   79,W
-0361:  MOVWF  5A
-0362:  MOVF   78,W
-0363:  MOVWF  59
-0364:  MOVF   2F,W
-0365:  SUBWF  78,W
-0366:  MOVWF  77
-0367:  MOVF   79,W
-0368:  MOVWF  7A
-0369:  MOVLW  00
-036A:  BTFSS  03.0
-036B:  MOVLW  01
-036C:  SUBWF  7A,F
-036D:  MOVF   77,W
-036E:  MOVWF  63
-036F:  MOVF   7A,W
-0370:  MOVWF  64
-0371:  CALL   071
-0372:  MOVF   7A,W
-0373:  MOVWF  54
-0374:  MOVF   79,W
-0375:  MOVWF  53
-0376:  MOVF   78,W
-0377:  MOVWF  52
-0378:  MOVF   77,W
-0379:  MOVWF  51
+035D:  CALL   0AD
+035E:  MOVF   79,W
+035F:  MOVWF  62
+0360:  MOVF   78,W
+0361:  MOVWF  61
+0362:  MOVF   2F,W
+0363:  SUBWF  78,W
+0364:  MOVWF  77
+0365:  MOVF   79,W
+0366:  MOVWF  7A
+0367:  MOVLW  00
+0368:  BTFSS  03.0
+0369:  MOVLW  01
+036A:  SUBWF  7A,F
+036B:  MOVF   77,W
+036C:  MOVWF  67
+036D:  MOVF   7A,W
+036E:  MOVWF  68
+036F:  CALL   071
+0370:  MOVF   7A,W
+0371:  MOVWF  58
+0372:  MOVF   79,W
+0373:  MOVWF  57
+0374:  MOVF   78,W
+0375:  MOVWF  56
+0376:  MOVF   77,W
+0377:  MOVWF  55
 ....................    f_G_inter=f_G_inter*gan_g; 
-037A:  MOVF   54,W
-037B:  MOVWF  5C
-037C:  MOVF   53,W
-037D:  MOVWF  5B
-037E:  MOVF   52,W
-037F:  MOVWF  5A
-0380:  MOVF   51,W
-0381:  MOVWF  59
-0382:  MOVF   38,W
-0383:  MOVWF  60
-0384:  MOVF   37,W
-0385:  MOVWF  5F
-0386:  MOVF   36,W
-0387:  MOVWF  5E
-0388:  MOVF   35,W
-0389:  MOVWF  5D
-038A:  CALL   1A3
-038B:  MOVF   7A,W
-038C:  MOVWF  54
-038D:  MOVF   79,W
-038E:  MOVWF  53
-038F:  MOVF   78,W
-0390:  MOVWF  52
-0391:  MOVF   77,W
-0392:  MOVWF  51
+0378:  MOVF   58,W
+0379:  MOVWF  64
+037A:  MOVF   57,W
+037B:  MOVWF  63
+037C:  MOVF   56,W
+037D:  MOVWF  62
+037E:  MOVF   55,W
+037F:  MOVWF  61
+0380:  MOVF   38,W
+0381:  MOVWF  68
+0382:  MOVF   37,W
+0383:  MOVWF  67
+0384:  MOVF   36,W
+0385:  MOVWF  66
+0386:  MOVF   35,W
+0387:  MOVWF  65
+0388:  CALL   1A1
+0389:  MOVF   7A,W
+038A:  MOVWF  58
+038B:  MOVF   79,W
+038C:  MOVWF  57
+038D:  MOVF   78,W
+038E:  MOVWF  56
+038F:  MOVF   77,W
+0390:  MOVWF  55
 ....................    if(f_G_inter<0){ 
-0393:  MOVF   54,W
-0394:  MOVWF  62
-0395:  MOVF   53,W
-0396:  MOVWF  61
-0397:  MOVF   52,W
-0398:  MOVWF  60
-0399:  MOVF   51,W
-039A:  MOVWF  5F
+0391:  MOVF   58,W
+0392:  MOVWF  64
+0393:  MOVF   57,W
+0394:  MOVWF  63
+0395:  MOVF   56,W
+0396:  MOVWF  62
+0397:  MOVF   55,W
+0398:  MOVWF  61
+0399:  CLRF   68
+039A:  CLRF   67
 039B:  CLRF   66
 039C:  CLRF   65
-039D:  CLRF   64
-039E:  CLRF   63
-039F:  CALL   218
-03A0:  BTFSS  03.0
-03A1:  GOTO   3AC
+039D:  CALL   216
+039E:  BTFSS  03.0
+039F:  GOTO   3AA
 ....................       *frecuencia_G=0;    
-03A2:  MOVF   49,W
-03A3:  MOVWF  04
-03A4:  BCF    03.7
-03A5:  BTFSC  4A.0
-03A6:  BSF    03.7
-03A7:  INCF   04,F
+03A0:  MOVF   4B,W
+03A1:  MOVWF  04
+03A2:  BCF    03.7
+03A3:  BTFSC  4C.0
+03A4:  BSF    03.7
+03A5:  INCF   04,F
+03A6:  CLRF   00
+03A7:  DECF   04,F
 03A8:  CLRF   00
-03A9:  DECF   04,F
-03AA:  CLRF   00
 ....................    } 
 ....................    else{ 
-03AB:  GOTO   3C2
+03A9:  GOTO   3C0
 ....................       *frecuencia_G=(int16)f_G_inter; 
-03AC:  MOVF   4A,W
-03AD:  MOVWF  7A
-03AE:  MOVF   49,W
-03AF:  MOVWF  04
-03B0:  BCF    03.7
-03B1:  BTFSC  4A.0
-03B2:  BSF    03.7
-03B3:  MOVF   54,W
-03B4:  MOVWF  60
-03B5:  MOVF   53,W
-03B6:  MOVWF  5F
-03B7:  MOVF   52,W
-03B8:  MOVWF  5E
-03B9:  MOVF   51,W
-03BA:  MOVWF  5D
-03BB:  CALL   158
-03BC:  INCF   04,F
-03BD:  MOVF   79,W
-03BE:  MOVWF  00
-03BF:  DECF   04,F
-03C0:  MOVF   78,W
-03C1:  MOVWF  00
+03AA:  MOVF   4C,W
+03AB:  MOVWF  7A
+03AC:  MOVF   4B,W
+03AD:  MOVWF  04
+03AE:  BCF    03.7
+03AF:  BTFSC  4C.0
+03B0:  BSF    03.7
+03B1:  MOVF   58,W
+03B2:  MOVWF  6A
+03B3:  MOVF   57,W
+03B4:  MOVWF  69
+03B5:  MOVF   56,W
+03B6:  MOVWF  68
+03B7:  MOVF   55,W
+03B8:  MOVWF  67
+03B9:  CALL   08E
+03BA:  INCF   04,F
+03BB:  MOVF   79,W
+03BC:  MOVWF  00
+03BD:  DECF   04,F
+03BE:  MOVF   78,W
+03BF:  MOVWF  00
 ....................    } 
-.................... } 
-03C2:  BCF    0A.3
-03C3:  GOTO   57F (RETURN)
+....................     
+....................    //Claro 
+....................    output_high(OE); 
+03C0:  BSF    03.5
+03C1:  BCF    06.5
+03C2:  BCF    03.5
+03C3:  BSF    06.5
+....................    output_high(S2); 
+03C4:  BSF    03.5
+03C5:  BCF    06.6
+03C6:  BCF    03.5
+03C7:  BSF    06.6
+....................    output_low(S3); 
+03C8:  BSF    03.5
+03C9:  BCF    06.4
+03CA:  BCF    03.5
+03CB:  BCF    06.4
+....................     
+....................    delay_ms(1); 
+03CC:  MOVLW  01
+03CD:  MOVWF  61
+03CE:  CALL   05D
+....................    output_low(OE); 
+03CF:  BSF    03.5
+03D0:  BCF    06.5
+03D1:  BCF    03.5
+03D2:  BCF    06.5
+....................    delay_ms(10); 
+03D3:  MOVLW  0A
+03D4:  MOVWF  61
+03D5:  CALL   05D
+....................    *frecuencia_C=calcula_frecuencia(); 
+03D6:  MOVF   50,W
+03D7:  MOVWF  7A
+03D8:  MOVF   4F,W
+03D9:  MOVWF  61
+03DA:  MOVF   50,W
+03DB:  MOVWF  62
+03DC:  CALL   0AD
+03DD:  MOVF   61,W
+03DE:  MOVWF  04
+03DF:  BCF    03.7
+03E0:  BTFSC  62.0
+03E1:  BSF    03.7
+03E2:  INCF   04,F
+03E3:  MOVF   79,W
+03E4:  MOVWF  00
+03E5:  DECF   04,F
+03E6:  MOVF   78,W
+03E7:  MOVWF  00
+....................     
 ....................  
-.................... //Buscar el mas chico y dividirlo entre el más chico. Los que esten por encima de un nivel son "1" y los que sean menores son "0" 
-.................... int8 detectar_color(int16 fred, int16 fblue,int16 fgreen){ 
-03C4:  CLRF   4F
-03C5:  MOVLW  01
-03C6:  MOVWF  4E
-....................    int8 color; 
-....................    int16 mini=1; 
-....................    float nred; 
-....................    float nblue; 
-....................    float ngreen; 
-....................    int8 bitred; 
-....................    int8 bitblue; 
-....................    int8 bitgreen; 
+.................... } 
+03E8:  BCF    0A.3
+03E9:  GOTO   520 (RETURN)
+....................  
+.................... int8 busca_maximo(int16 vector[], int8 elementos){ 
+....................    int8 i; 
+....................    int8 indice; 
+....................    int16 mayor; 
+....................    mayor=vector[0]; 
+03EA:  MOVF   67,W
+03EB:  MOVWF  04
+03EC:  BCF    03.7
+03ED:  BTFSC  68.0
+03EE:  BSF    03.7
+03EF:  INCF   04,F
+03F0:  MOVF   00,W
+03F1:  MOVWF  7A
+03F2:  DECF   04,F
+03F3:  MOVF   00,W
+03F4:  MOVWF  6C
+03F5:  MOVF   7A,W
+03F6:  MOVWF  6D
+....................    indice=0; 
+03F7:  CLRF   6B
+....................    for(i=0;i<elementos;i++){ 
+03F8:  CLRF   6A
+03F9:  MOVF   69,W
+03FA:  SUBWF  6A,W
+03FB:  BTFSC  03.0
+03FC:  GOTO   427
+....................       if(vector[i]>mayor){ 
+03FD:  BCF    03.0
+03FE:  RLF    6A,W
+03FF:  ADDWF  67,W
+0400:  MOVWF  04
+0401:  BCF    03.7
+0402:  BTFSC  68.0
+0403:  BSF    03.7
+0404:  INCF   04,F
+0405:  MOVF   00,W
+0406:  MOVWF  6F
+0407:  DECF   04,F
+0408:  MOVF   00,W
+0409:  MOVWF  6E
+040A:  MOVF   6D,W
+040B:  SUBWF  6F,W
+040C:  BTFSS  03.0
+040D:  GOTO   425
+040E:  BTFSS  03.2
+040F:  GOTO   414
+0410:  MOVF   6E,W
+0411:  SUBWF  6C,W
+0412:  BTFSC  03.0
+0413:  GOTO   425
+....................          mayor=vector[i]; 
+0414:  BCF    03.0
+0415:  RLF    6A,W
+0416:  ADDWF  67,W
+0417:  MOVWF  04
+0418:  BCF    03.7
+0419:  BTFSC  68.0
+041A:  BSF    03.7
+041B:  INCF   04,F
+041C:  MOVF   00,W
+041D:  MOVWF  7A
+041E:  DECF   04,F
+041F:  MOVF   00,W
+0420:  MOVWF  6C
+0421:  MOVF   7A,W
+0422:  MOVWF  6D
+....................          indice=i; 
+0423:  MOVF   6A,W
+0424:  MOVWF  6B
+....................       } 
+....................    } 
+0425:  INCF   6A,F
+0426:  GOTO   3F9
+....................    return indice; 
+0427:  MOVF   6B,W
+0428:  MOVWF  78
+.................... } 
+0429:  RETURN
+....................  
+.................... int8 busca_maximo2(int16 vector[], int8 elementos){ 
+....................    int8 i; 
+....................    int8 indice; 
+....................    int8 max; 
+....................    int16 mayor; 
+....................    max=busca_maximo(vector,elementos); 
+*
+046F:  MOVF   60,W
+0470:  MOVWF  68
+0471:  MOVF   5F,W
+0472:  MOVWF  67
+0473:  MOVF   61,W
+0474:  MOVWF  69
+0475:  CALL   3EA
+0476:  MOVF   78,W
+0477:  MOVWF  64
+....................    mayor=0; 
+0478:  CLRF   66
+0479:  CLRF   65
+....................    indice=0; 
+047A:  CLRF   63
+....................    for(i=0;i<elementos;i++){ 
+047B:  CLRF   62
+047C:  MOVF   61,W
+047D:  SUBWF  62,W
+047E:  BTFSC  03.0
+047F:  GOTO   4AE
+....................       if(i!=max){ 
+0480:  MOVF   64,W
+0481:  SUBWF  62,W
+0482:  BTFSC  03.2
+0483:  GOTO   4AC
+....................          if(vector[i]>mayor){ 
+0484:  BCF    03.0
+0485:  RLF    62,W
+0486:  ADDWF  5F,W
+0487:  MOVWF  04
+0488:  BCF    03.7
+0489:  BTFSC  60.0
+048A:  BSF    03.7
+048B:  INCF   04,F
+048C:  MOVF   00,W
+048D:  MOVWF  68
+048E:  DECF   04,F
+048F:  MOVF   00,W
+0490:  MOVWF  67
+0491:  MOVF   66,W
+0492:  SUBWF  68,W
+0493:  BTFSS  03.0
+0494:  GOTO   4AC
+0495:  BTFSS  03.2
+0496:  GOTO   49B
+0497:  MOVF   67,W
+0498:  SUBWF  65,W
+0499:  BTFSC  03.0
+049A:  GOTO   4AC
+....................             mayor=vector[i]; 
+049B:  BCF    03.0
+049C:  RLF    62,W
+049D:  ADDWF  5F,W
+049E:  MOVWF  04
+049F:  BCF    03.7
+04A0:  BTFSC  60.0
+04A1:  BSF    03.7
+04A2:  INCF   04,F
+04A3:  MOVF   00,W
+04A4:  MOVWF  7A
+04A5:  DECF   04,F
+04A6:  MOVF   00,W
+04A7:  MOVWF  65
+04A8:  MOVF   7A,W
+04A9:  MOVWF  66
+....................             indice=i; 
+04AA:  MOVF   62,W
+04AB:  MOVWF  63
+....................          } 
+....................       } 
+....................    } 
+04AC:  INCF   62,F
+04AD:  GOTO   47C
+....................    return indice; 
+04AE:  MOVF   63,W
+04AF:  MOVWF  78
+.................... } 
+....................  
+.................... //Otro metodo 
+.................... int8 detectar_color(int16 fred, int16 fblue,int16 fgreen, int16 fclear){ 
+*
+0433:  MOVLW  08
+0434:  MOVWF  5C
+....................    int16 rgb[3]={0,0,0};    
+*
+042A:  CLRF   51
+042B:  CLRF   52
+042C:  CLRF   53
+042D:  CLRF   54
+042E:  CLRF   55
+042F:  CLRF   56
+....................    int8 rgb2[3]={0,0,0}; 
+0430:  CLRF   57
+0431:  CLRF   58
+0432:  CLRF   59
+....................    int8 max1,max2; 
+....................    int8 color=8; 
+....................    int16 direccion; 
 ....................     
-....................    if(fred<fblue){ 
-03C7:  MOVF   48,W
-03C8:  SUBWF  4A,W
-03C9:  BTFSS  03.0
-03CA:  GOTO   3E5
-03CB:  BTFSS  03.2
-03CC:  GOTO   3D1
-03CD:  MOVF   49,W
-03CE:  SUBWF  47,W
-03CF:  BTFSC  03.0
-03D0:  GOTO   3E5
-....................       if(fred<fgreen){ 
-03D1:  MOVF   48,W
-03D2:  SUBWF  4C,W
-03D3:  BTFSS  03.0
-03D4:  GOTO   3E0
-03D5:  BTFSS  03.2
-03D6:  GOTO   3DB
-03D7:  MOVF   4B,W
-03D8:  SUBWF  47,W
-03D9:  BTFSC  03.0
-03DA:  GOTO   3E0
-....................          mini=fred; 
-03DB:  MOVF   48,W
-03DC:  MOVWF  4F
-03DD:  MOVF   47,W
-03DE:  MOVWF  4E
-....................       } 
-....................       else{ 
-03DF:  GOTO   3E4
-....................          mini=fgreen; 
-03E0:  MOVF   4C,W
-03E1:  MOVWF  4F
-03E2:  MOVF   4B,W
-03E3:  MOVWF  4E
+....................    rgb[0]=fred; 
+*
+0435:  MOVF   4A,W
+0436:  MOVWF  52
+0437:  MOVF   49,W
+0438:  MOVWF  51
+....................    rgb[1]=fgreen; 
+0439:  MOVF   4E,W
+043A:  MOVWF  54
+043B:  MOVF   4D,W
+043C:  MOVWF  53
+....................    rgb[2]=fblue; 
+043D:  MOVF   4C,W
+043E:  MOVWF  56
+043F:  MOVF   4B,W
+0440:  MOVWF  55
+....................    max1=busca_maximo(rgb,3); 
+0441:  CLRF   68
+0442:  MOVLW  51
+0443:  MOVWF  67
+0444:  MOVLW  03
+0445:  MOVWF  69
+0446:  CALL   3EA
+0447:  MOVF   78,W
+0448:  MOVWF  5A
+....................  
+....................    if(fclear<6100){ 
+0449:  MOVF   50,W
+044A:  SUBLW  17
+044B:  BTFSS  03.0
+044C:  GOTO   46A
+044D:  BTFSS  03.2
+044E:  GOTO   453
+044F:  MOVF   4F,W
+0450:  SUBLW  D3
+0451:  BTFSS  03.0
+0452:  GOTO   46A
+....................        
+....................       switch(max1){ 
+0453:  MOVF   5A,W
+0454:  BTFSC  03.2
+0455:  GOTO   45D
+0456:  XORLW  01
+0457:  BTFSC  03.2
+0458:  GOTO   460
+0459:  XORLW  03
+045A:  BTFSC  03.2
+045B:  GOTO   463
+045C:  GOTO   466
+....................          case 0: 
+....................             color=4; 
+045D:  MOVLW  04
+045E:  MOVWF  5C
+....................             break; 
+045F:  GOTO   469
+....................          case 1: 
+....................             color=2; 
+0460:  MOVLW  02
+0461:  MOVWF  5C
+....................             break; 
+0462:  GOTO   469
+....................          case 2: 
+....................             color=1; 
+0463:  MOVLW  01
+0464:  MOVWF  5C
+....................             break; 
+0465:  GOTO   469
+....................          default: 
+....................             color=8; 
+0466:  MOVLW  08
+0467:  MOVWF  5C
+....................             break; 
+0468:  GOTO   469
 ....................       } 
 ....................    } 
 ....................    else{ 
-03E4:  GOTO   3F8
-....................       if(fblue<fgreen){ 
-03E5:  MOVF   4A,W
-03E6:  SUBWF  4C,W
-03E7:  BTFSS  03.0
-03E8:  GOTO   3F4
-03E9:  BTFSS  03.2
-03EA:  GOTO   3EF
-03EB:  MOVF   4B,W
-03EC:  SUBWF  49,W
-03ED:  BTFSC  03.0
-03EE:  GOTO   3F4
-....................          mini=fblue; 
-03EF:  MOVF   4A,W
-03F0:  MOVWF  4F
-03F1:  MOVF   49,W
-03F2:  MOVWF  4E
-....................       } 
-....................       else{ 
-03F3:  GOTO   3F8
-....................          mini=fgreen; 
-03F4:  MOVF   4C,W
-03F5:  MOVWF  4F
-03F6:  MOVF   4B,W
-03F7:  MOVWF  4E
-....................       } 
-....................    } 
-....................    nred=(float)fred/(float)mini; 
-03F8:  MOVF   48,W
-03F9:  MOVWF  64
-03FA:  MOVF   47,W
-03FB:  MOVWF  63
-03FC:  CALL   071
-03FD:  MOVF   77,W
-03FE:  MOVWF  5F
-03FF:  MOVF   78,W
-0400:  MOVWF  60
-0401:  MOVF   79,W
-0402:  MOVWF  61
-0403:  MOVF   7A,W
-0404:  MOVWF  62
-0405:  MOVF   4F,W
-0406:  MOVWF  64
-0407:  MOVF   4E,W
-0408:  MOVWF  63
-0409:  CALL   071
-040A:  MOVF   62,W
-040B:  MOVWF  66
-040C:  MOVF   61,W
-040D:  MOVWF  65
-040E:  MOVF   60,W
-040F:  MOVWF  64
-0410:  MOVF   5F,W
-0411:  MOVWF  63
-0412:  MOVF   7A,W
-0413:  MOVWF  6A
-0414:  MOVF   79,W
-0415:  MOVWF  69
-0416:  MOVF   78,W
-0417:  MOVWF  68
-0418:  MOVF   77,W
-0419:  MOVWF  67
-041A:  CALL   08E
-041B:  MOVF   7A,W
-041C:  MOVWF  53
-041D:  MOVF   79,W
-041E:  MOVWF  52
-041F:  MOVF   78,W
-0420:  MOVWF  51
-0421:  MOVF   77,W
-0422:  MOVWF  50
-....................    nblue=(float)fblue/(float)mini; 
-0423:  MOVF   4A,W
-0424:  MOVWF  64
-0425:  MOVF   49,W
-0426:  MOVWF  63
-0427:  CALL   071
-0428:  MOVF   77,W
-0429:  MOVWF  5F
-042A:  MOVF   78,W
-042B:  MOVWF  60
-042C:  MOVF   79,W
-042D:  MOVWF  61
-042E:  MOVF   7A,W
-042F:  MOVWF  62
-0430:  MOVF   4F,W
-0431:  MOVWF  64
-0432:  MOVF   4E,W
-0433:  MOVWF  63
-0434:  CALL   071
-0435:  MOVF   62,W
-0436:  MOVWF  66
-0437:  MOVF   61,W
-0438:  MOVWF  65
-0439:  MOVF   60,W
-043A:  MOVWF  64
-043B:  MOVF   5F,W
-043C:  MOVWF  63
-043D:  MOVF   7A,W
-043E:  MOVWF  6A
-043F:  MOVF   79,W
-0440:  MOVWF  69
-0441:  MOVF   78,W
-0442:  MOVWF  68
-0443:  MOVF   77,W
-0444:  MOVWF  67
-0445:  CALL   08E
-0446:  MOVF   7A,W
-0447:  MOVWF  57
-0448:  MOVF   79,W
-0449:  MOVWF  56
-044A:  MOVF   78,W
-044B:  MOVWF  55
-044C:  MOVF   77,W
-044D:  MOVWF  54
-....................    ngreen=(float)fgreen/(float)mini; 
-044E:  MOVF   4C,W
-044F:  MOVWF  64
-0450:  MOVF   4B,W
-0451:  MOVWF  63
-0452:  CALL   071
-0453:  MOVF   77,W
-0454:  MOVWF  5F
-0455:  MOVF   78,W
-0456:  MOVWF  60
-0457:  MOVF   79,W
-0458:  MOVWF  61
-0459:  MOVF   7A,W
-045A:  MOVWF  62
-045B:  MOVF   4F,W
-045C:  MOVWF  64
-045D:  MOVF   4E,W
-045E:  MOVWF  63
-045F:  CALL   071
-0460:  MOVF   62,W
-0461:  MOVWF  66
-0462:  MOVF   61,W
-0463:  MOVWF  65
-0464:  MOVF   60,W
-0465:  MOVWF  64
-0466:  MOVF   5F,W
-0467:  MOVWF  63
-0468:  MOVF   7A,W
-0469:  MOVWF  6A
-046A:  MOVF   79,W
-046B:  MOVWF  69
-046C:  MOVF   78,W
-046D:  MOVWF  68
-046E:  MOVF   77,W
-046F:  MOVWF  67
-0470:  CALL   08E
-0471:  MOVF   7A,W
-0472:  MOVWF  5B
-0473:  MOVF   79,W
-0474:  MOVWF  5A
-0475:  MOVF   78,W
-0476:  MOVWF  59
-0477:  MOVF   77,W
-0478:  MOVWF  58
-....................     
-....................    if(nred>nivel){ 
-0479:  MOVF   2D,W
-047A:  MOVWF  62
-047B:  MOVF   2C,W
-047C:  MOVWF  61
-047D:  MOVF   2B,W
-047E:  MOVWF  60
-047F:  MOVF   2A,W
-0480:  MOVWF  5F
-0481:  MOVF   53,W
-0482:  MOVWF  66
-0483:  MOVF   52,W
-0484:  MOVWF  65
-0485:  MOVF   51,W
-0486:  MOVWF  64
-0487:  MOVF   50,W
-0488:  MOVWF  63
-0489:  CALL   218
-048A:  BTFSS  03.0
-048B:  GOTO   48F
-....................       bitred=1; 
-048C:  MOVLW  01
-048D:  MOVWF  5C
-....................    } 
-....................    else{ 
-048E:  GOTO   490
-....................       bitred=0; 
-048F:  CLRF   5C
-....................    } 
-....................    if(nblue>nivel){ 
-0490:  MOVF   2D,W
-0491:  MOVWF  62
-0492:  MOVF   2C,W
-0493:  MOVWF  61
-0494:  MOVF   2B,W
-0495:  MOVWF  60
-0496:  MOVF   2A,W
-0497:  MOVWF  5F
-0498:  MOVF   57,W
-0499:  MOVWF  66
-049A:  MOVF   56,W
-049B:  MOVWF  65
-049C:  MOVF   55,W
-049D:  MOVWF  64
-049E:  MOVF   54,W
-049F:  MOVWF  63
-04A0:  CALL   218
-04A1:  BTFSS  03.0
-04A2:  GOTO   4A6
-....................       bitblue=1; 
-04A3:  MOVLW  01
-04A4:  MOVWF  5D
-....................    } 
-....................    else{ 
-04A5:  GOTO   4A7
-....................       bitblue=0; 
-04A6:  CLRF   5D
-....................    } 
-....................    if(ngreen>nivel){ 
-04A7:  MOVF   2D,W
-04A8:  MOVWF  62
-04A9:  MOVF   2C,W
-04AA:  MOVWF  61
-04AB:  MOVF   2B,W
-04AC:  MOVWF  60
-04AD:  MOVF   2A,W
-04AE:  MOVWF  5F
-04AF:  MOVF   5B,W
-04B0:  MOVWF  66
-04B1:  MOVF   5A,W
-04B2:  MOVWF  65
-04B3:  MOVF   59,W
-04B4:  MOVWF  64
-04B5:  MOVF   58,W
-04B6:  MOVWF  63
-04B7:  CALL   218
-04B8:  BTFSS  03.0
-04B9:  GOTO   4BD
-....................       bitgreen=1; 
-04BA:  MOVLW  01
-04BB:  MOVWF  5E
-....................    } 
-....................    else{ 
-04BC:  GOTO   4BE
-....................       bitgreen=0; 
-04BD:  CLRF   5E
-....................    } 
-....................    color=(bitred<<2)+(bitgreen<<1)+bitblue; 
-04BE:  RLF    5C,W
+0469:  GOTO   4C8
+....................       max2=busca_maximo2(rgb,3); 
+046A:  CLRF   60
+046B:  MOVLW  51
+046C:  MOVWF  5F
+046D:  MOVLW  03
+046E:  MOVWF  61
+*
+04B0:  MOVF   78,W
+04B1:  MOVWF  5B
+....................       rgb2[max1]=1; 
+04B2:  MOVLW  57
+04B3:  ADDWF  5A,W
+04B4:  MOVWF  04
+04B5:  BCF    03.7
+04B6:  MOVLW  01
+04B7:  MOVWF  00
+....................       rgb2[max2]=1; 
+04B8:  MOVLW  57
+04B9:  ADDWF  5B,W
+04BA:  MOVWF  04
+04BB:  BCF    03.7
+04BC:  MOVLW  01
+04BD:  MOVWF  00
+....................       color=(rgb2[0]<<2)+(rgb2[1]<<1)+rgb2[2]; 
+04BE:  RLF    57,W
 04BF:  MOVWF  5F
 04C0:  RLF    5F,F
 04C1:  MOVLW  FC
 04C2:  ANDWF  5F,F
 04C3:  BCF    03.0
-04C4:  RLF    5E,W
+04C4:  RLF    58,W
 04C5:  ADDWF  5F,W
-04C6:  ADDWF  5D,W
-04C7:  MOVWF  4D
-....................     
-....................    if(color==0){ 
-04C8:  MOVF   4D,F
-04C9:  BTFSS  03.2
-04CA:  GOTO   4D9
-....................       if(fred>1000){ 
-04CB:  MOVF   48,W
-04CC:  SUBLW  02
-04CD:  BTFSC  03.0
-04CE:  GOTO   4D8
-04CF:  XORLW  FF
-04D0:  BTFSS  03.2
-04D1:  GOTO   4D6
-04D2:  MOVF   47,W
-04D3:  SUBLW  E8
-04D4:  BTFSC  03.0
-04D5:  GOTO   4D8
-....................          color=7; 
-04D6:  MOVLW  07
-04D7:  MOVWF  4D
-....................       } 
+04C6:  ADDWF  59,W
+04C7:  MOVWF  5C
 ....................    } 
-....................    else if((fred<1000)&&(fblue<1000)&&(fgreen<1000)){ 
-04D8:  GOTO   4F9
-04D9:  MOVF   48,W
-04DA:  SUBLW  03
-04DB:  BTFSS  03.0
-04DC:  GOTO   4F9
-04DD:  BTFSS  03.2
-04DE:  GOTO   4E3
-04DF:  MOVF   47,W
-04E0:  SUBLW  E7
-04E1:  BTFSS  03.0
-04E2:  GOTO   4F9
-04E3:  MOVF   4A,W
-04E4:  SUBLW  03
-04E5:  BTFSS  03.0
-04E6:  GOTO   4F9
-04E7:  BTFSS  03.2
-04E8:  GOTO   4ED
-04E9:  MOVF   49,W
-04EA:  SUBLW  E7
-04EB:  BTFSS  03.0
-04EC:  GOTO   4F9
-04ED:  MOVF   4C,W
-04EE:  SUBLW  03
-04EF:  BTFSS  03.0
-04F0:  GOTO   4F9
-04F1:  BTFSS  03.2
-04F2:  GOTO   4F7
-04F3:  MOVF   4B,W
-04F4:  SUBLW  E7
-04F5:  BTFSS  03.0
-04F6:  GOTO   4F9
-....................       color=8; 
-04F7:  MOVLW  08
-04F8:  MOVWF  4D
-....................    } 
-....................     
 ....................    return color; 
-04F9:  MOVF   4D,W
-04FA:  MOVWF  78
+04C8:  MOVF   5C,W
+04C9:  MOVWF  78
+....................  
 .................... } 
-04FB:  BCF    0A.3
-04FC:  GOTO   58C (RETURN)
+04CA:  BCF    0A.3
+04CB:  GOTO   531 (RETURN)
 ....................  
-....................  
+.................... //Buscar el mas chico y dividirlo entre el más chico. Los que esten por encima de un nivel son "1" y los que sean menores son "0" 
+.................... //! 
+.................... //!int8 detectar_color(int16 fred, int16 fblue,int16 fgreen){ 
+.................... //!   int8 color; 
+.................... //!   int16 mini=1; 
+.................... //!   float nred; 
+.................... //!   float nblue; 
+.................... //!   float ngreen; 
+.................... //!   int8 bitred; 
+.................... //!   int8 bitblue; 
+.................... //!   int8 bitgreen; 
+.................... //!    
+.................... //!   if(fred<fblue){ 
+.................... //!      if(fred<fgreen){ 
+.................... //!         mini=fred; 
+.................... //!      } 
+.................... //!      else{ 
+.................... //!         mini=fgreen; 
+.................... //!      } 
+.................... //!   } 
+.................... //!   else{ 
+.................... //!      if(fblue<fgreen){ 
+.................... //!         mini=fblue; 
+.................... //!      } 
+.................... //!      else{ 
+.................... //!         mini=fgreen; 
+.................... //!      } 
+.................... //!   } 
+.................... //!   nred=(float)fred/(float)mini; 
+.................... //!   nblue=(float)fblue/(float)mini; 
+.................... //!   ngreen=(float)fgreen/(float)mini; 
+.................... //!    
+.................... //!   if(nred>nivel){ 
+.................... //!      bitred=1; 
+.................... //!   } 
+.................... //!   else{ 
+.................... //!      bitred=0; 
+.................... //!   } 
+.................... //!   if(nblue>nivel){ 
+.................... //!      bitblue=1; 
+.................... //!   } 
+.................... //!   else{ 
+.................... //!      bitblue=0; 
+.................... //!   } 
+.................... //!   if(ngreen>nivel){ 
+.................... //!      bitgreen=1; 
+.................... //!   } 
+.................... //!   else{ 
+.................... //!      bitgreen=0; 
+.................... //!   } 
+.................... //!   color=(bitred<<2)+(bitgreen<<1)+bitblue; 
+.................... //!    
+.................... //!   if(color==0){ 
+.................... //!      if(fred>1000){ 
+.................... //!         color=7; 
+.................... //!      } 
+.................... //!   } 
+.................... //!   else if((fred<1000)&&(fblue<1000)&&(fgreen<1000)){ 
+.................... //!      color=8; 
+.................... //!   } 
+.................... //!    
+.................... //!   return color; 
+.................... //!} 
+.................... //! 
+.................... //! 
 ....................  
 ....................  
 .................... //COLOR2MUSIC 
@@ -1197,116 +1188,192 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 ....................  
 .................... void main() 
 .................... { 
-*
-0533:  CLRF   04
-0534:  BCF    03.7
-0535:  MOVLW  1F
-0536:  ANDWF  03,F
-0537:  MOVLW  72
-0538:  BSF    03.5
-0539:  MOVWF  0F
-053A:  MOVF   0F,W
-053B:  BCF    03.5
-053C:  CLRF   29
-053D:  CLRF   28
-053E:  MOVLW  0A
-053F:  MOVWF  2D
-0540:  MOVLW  D7
-0541:  MOVWF  2C
-0542:  MOVLW  43
-0543:  MOVWF  2B
-0544:  MOVLW  7F
-0545:  MOVWF  2A
-0546:  MOVLW  A7
-0547:  MOVWF  2E
-0548:  MOVLW  85
-0549:  MOVWF  2F
-054A:  MOVLW  95
-054B:  MOVWF  30
-054C:  CLRF   34
-054D:  CLRF   33
-054E:  CLRF   32
-054F:  MOVLW  7F
-0550:  MOVWF  31
-0551:  MOVLW  A7
-0552:  MOVWF  38
-0553:  MOVLW  AE
-0554:  MOVWF  37
-0555:  MOVLW  1C
-0556:  MOVWF  36
-0557:  MOVLW  7F
-0558:  MOVWF  35
-0559:  MOVLW  20
-055A:  MOVWF  3C
-055B:  MOVLW  63
-055C:  MOVWF  3B
-055D:  MOVLW  0A
-055E:  MOVWF  3A
-055F:  MOVLW  7F
-0560:  MOVWF  39
-0561:  BSF    03.5
-0562:  BCF    1F.4
-0563:  BCF    1F.5
-0564:  MOVF   1B,W
-0565:  ANDLW  80
-0566:  MOVWF  1B
-0567:  MOVLW  07
-0568:  MOVWF  1C
-0569:  BCF    03.5
-056A:  CLRF   3E
-056B:  CLRF   3D
-056C:  CLRF   40
-056D:  CLRF   3F
-056E:  CLRF   42
-056F:  CLRF   41
-0570:  CLRF   43
-0571:  CLRF   44
-0572:  CLRF   45
+04CC:  CLRF   04
+04CD:  BCF    03.7
+04CE:  MOVLW  1F
+04CF:  ANDWF  03,F
+04D0:  MOVLW  72
+04D1:  BSF    03.5
+04D2:  MOVWF  0F
+04D3:  MOVF   0F,W
+04D4:  BCF    03.5
+04D5:  CLRF   29
+04D6:  CLRF   28
+04D7:  MOVLW  0A
+04D8:  MOVWF  2D
+04D9:  MOVLW  D7
+04DA:  MOVWF  2C
+04DB:  MOVLW  43
+04DC:  MOVWF  2B
+04DD:  MOVLW  7F
+04DE:  MOVWF  2A
+04DF:  MOVLW  A7
+04E0:  MOVWF  2E
+04E1:  MOVLW  85
+04E2:  MOVWF  2F
+04E3:  MOVLW  95
+04E4:  MOVWF  30
+04E5:  MOVLW  FA
+04E6:  MOVWF  34
+04E7:  MOVLW  98
+04E8:  MOVWF  33
+04E9:  MOVLW  27
+04EA:  MOVWF  32
+04EB:  MOVLW  7E
+04EC:  MOVWF  31
+04ED:  MOVLW  D9
+04EE:  MOVWF  38
+04EF:  MOVLW  E9
+04F0:  MOVWF  37
+04F1:  MOVLW  4F
+04F2:  MOVWF  36
+04F3:  MOVLW  7E
+04F4:  MOVWF  35
+04F5:  MOVLW  B8
+04F6:  MOVWF  3C
+04F7:  MOVLW  5C
+04F8:  MOVWF  3B
+04F9:  MOVLW  3D
+04FA:  MOVWF  3A
+04FB:  MOVLW  7E
+04FC:  MOVWF  39
+04FD:  BSF    03.5
+04FE:  BCF    1F.4
+04FF:  BCF    1F.5
+0500:  MOVF   1B,W
+0501:  ANDLW  80
+0502:  MOVWF  1B
+0503:  MOVLW  07
+0504:  MOVWF  1C
+0505:  BCF    03.5
+0506:  CLRF   3E
+0507:  CLRF   3D
+0508:  CLRF   40
+0509:  CLRF   3F
+050A:  CLRF   42
+050B:  CLRF   41
+050C:  CLRF   44
+050D:  CLRF   43
+050E:  CLRF   45
+050F:  CLRF   46
+0510:  CLRF   47
 ....................    int16 frecuencia_R=0; 
 ....................    int16 frecuencia_G=0; 
 ....................    int16 frecuencia_B=0; 
+....................    int16 frecuencia_C=0; 
+....................     
 ....................    int8 dato=0; 
 ....................    int8 maximo=0; 
 ....................    int8 direccion=0; 
 ....................    int8 color; 
 ....................     
 ....................    init_tcs(); 
-0573:  GOTO   042
+0511:  GOTO   042
 ....................    init_sound(); 
-0574:  GOTO   055
+0512:  GOTO   055
 ....................     
 ....................    while(true){ 
-....................       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B); 
-0575:  CLRF   48
-0576:  MOVLW  3D
-0577:  MOVWF  47
-0578:  CLRF   4A
-0579:  MOVLW  3F
-057A:  MOVWF  49
-057B:  CLRF   4C
-057C:  MOVLW  41
-057D:  MOVWF  4B
-057E:  GOTO   257
+....................       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B, &frecuencia_C); 
+0513:  CLRF   4A
+0514:  MOVLW  3D
+0515:  MOVWF  49
+0516:  CLRF   4C
+0517:  MOVLW  3F
+0518:  MOVWF  4B
+0519:  CLRF   4E
+051A:  MOVLW  41
+051B:  MOVWF  4D
+051C:  CLRF   50
+051D:  MOVLW  43
+051E:  MOVWF  4F
+051F:  GOTO   255
 ....................       //Atencion!! Para hacer debug hay que tener en cuenta que antes la funcion esa le resta el offset que tiene luego la frecuencia es distinta  
+.................... //!      dato=(int8)(frecuencia_R>>8); 
+.................... //!      write_eeprom(direccion, dato); 
+.................... //!      dato=(int8)(frecuencia_R); 
+.................... //!      write_eeprom(direccion+1, dato); 
+.................... //!       
+.................... //!      dato=(int8)(frecuencia_G>>8); 
+.................... //!      write_eeprom(direccion+2, dato); 
+.................... //!      dato=(int8)(frecuencia_G); 
+.................... //!      write_eeprom(direccion+3, dato); 
+.................... //!       
+.................... //!      dato=(int8)(frecuencia_B>>8); 
+.................... //!      write_eeprom(direccion+4, dato); 
+.................... //!      dato=(int8)(frecuencia_B); 
+.................... //!      write_eeprom(direccion+5, dato); 
+.................... //!       
+.................... //!      dato=(int8)(frecuencia_C>>8); 
+.................... //!      write_eeprom(direccion+6, dato); 
+.................... //!      dato=(int8)(frecuencia_C); 
+.................... //!      write_eeprom(direccion+7, dato); 
+.................... //!       
+.................... //!      direccion=direccion+9; 
+.................... //!      if (direccion>=240){ 
+.................... //!         direccion=0; 
+.................... //!      } 
 ....................        
+....................       color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G,frecuencia_C); 
+0520:  MOVF   3E,W
+0521:  MOVWF  4A
+0522:  MOVF   3D,W
+0523:  MOVWF  49
+0524:  MOVF   42,W
+0525:  MOVWF  4C
+0526:  MOVF   41,W
+0527:  MOVWF  4B
+0528:  MOVF   40,W
+0529:  MOVWF  4E
+052A:  MOVF   3F,W
+052B:  MOVWF  4D
+052C:  MOVF   44,W
+052D:  MOVWF  50
+052E:  MOVF   43,W
+052F:  MOVWF  4F
+0530:  GOTO   42A
+0531:  MOVF   78,W
+0532:  MOVWF  48
+....................       write_eeprom(direccion, color); 
+0533:  MOVF   47,W
+0534:  BSF    03.6
+0535:  MOVWF  0D
+0536:  BCF    03.6
+0537:  MOVF   48,W
+0538:  BSF    03.6
+0539:  MOVWF  0C
+053A:  BSF    03.5
+053B:  BCF    0C.7
+053C:  BSF    0C.2
+053D:  BCF    03.5
+053E:  BCF    03.6
+053F:  MOVF   0B,W
+0540:  MOVWF  77
+0541:  BCF    0B.7
+0542:  BSF    03.5
+0543:  BSF    03.6
+0544:  MOVLW  55
+0545:  MOVWF  0D
+0546:  MOVLW  AA
+0547:  MOVWF  0D
+0548:  BSF    0C.1
+0549:  BTFSC  0C.1
+054A:  GOTO   549
+054B:  BCF    0C.2
+054C:  MOVF   77,W
+054D:  BCF    03.5
+054E:  BCF    03.6
+054F:  IORWF  0B,F
+....................       direccion++; 
+0550:  INCF   47,F
+....................       if(direccion>240){ 
+0551:  MOVF   47,W
+0552:  SUBLW  F0
+0553:  BTFSC  03.0
+0554:  GOTO   556
+....................          direccion=0; 
+0555:  CLRF   47
+....................       } 
 ....................        
-....................        
-....................       color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G); 
-057F:  MOVF   3E,W
-0580:  MOVWF  48
-0581:  MOVF   3D,W
-0582:  MOVWF  47
-0583:  MOVF   42,W
-0584:  MOVWF  4A
-0585:  MOVF   41,W
-0586:  MOVWF  49
-0587:  MOVF   40,W
-0588:  MOVWF  4C
-0589:  MOVF   3F,W
-058A:  MOVWF  4B
-058B:  GOTO   3C4
-058C:  MOVF   78,W
-058D:  MOVWF  46
 .................... //!      genera_sonido(DOn); 
 .................... //!      delay_ms(2000); 
 .................... //!      genera_sonido(REn); 
@@ -1326,160 +1393,52 @@ CCS PCM C Compiler, Version 4.104, 5967               03-ene.-15 11:19
 .................... //!      if(direccion>254){ 
 .................... //!         direccion=0; 
 .................... //!      } 
-....................       switch(color){ 
-058E:  MOVF   46,W
-058F:  BTFSC  03.2
-0590:  GOTO   5A7
-0591:  XORLW  01
-0592:  BTFSC  03.2
-0593:  GOTO   5AA
-0594:  XORLW  03
-0595:  BTFSC  03.2
-0596:  GOTO   5B9
-0597:  XORLW  01
-0598:  BTFSC  03.2
-0599:  GOTO   5C8
-059A:  XORLW  07
-059B:  BTFSC  03.2
-059C:  GOTO   5D3
-059D:  XORLW  01
-059E:  BTFSC  03.2
-059F:  GOTO   5DE
-05A0:  XORLW  03
-05A1:  BTFSC  03.2
-05A2:  GOTO   5E9
-05A3:  XORLW  01
-05A4:  BTFSC  03.2
-05A5:  GOTO   5F4
-05A6:  GOTO   5F7
-....................          case 0: 
-....................             genera_sonido(NONE); 
-05A7:  CLRF   47
-05A8:  CALL   4FD
-....................             //output_high(PIN_A0); 
-....................             //delay_ms(2000); 
-....................             break; 
-05A9:  GOTO   5FA
-....................          case 1: 
-....................             genera_sonido(REn); 
-05AA:  MOVLW  D4
-05AB:  MOVWF  47
-05AC:  CALL   4FD
-....................             output_high(PIN_A1); 
-05AD:  BSF    03.5
-05AE:  BCF    05.1
-05AF:  BCF    03.5
-05B0:  BSF    05.1
-....................             delay_ms(ntime); 
-05B1:  MOVLW  04
-05B2:  MOVWF  47
-05B3:  MOVLW  FA
-05B4:  MOVWF  59
-05B5:  CALL   05D
-05B6:  DECFSZ 47,F
-05B7:  GOTO   5B3
-....................             break; 
-05B8:  GOTO   5FA
-....................          case 2: 
-....................             genera_sonido(MIn); 
-05B9:  MOVLW  BD
-05BA:  MOVWF  47
-05BB:  CALL   4FD
-....................             output_high(PIN_A2); 
-05BC:  BSF    03.5
-05BD:  BCF    05.2
-05BE:  BCF    03.5
-05BF:  BSF    05.2
-....................             delay_ms(ntime); 
-05C0:  MOVLW  04
-05C1:  MOVWF  47
-05C2:  MOVLW  FA
-05C3:  MOVWF  59
-05C4:  CALL   05D
-05C5:  DECFSZ 47,F
-05C6:  GOTO   5C2
-....................             break; 
-05C7:  GOTO   5FA
-....................          case 3: 
-....................             genera_sonido(FAn); 
-05C8:  MOVLW  B2
-05C9:  MOVWF  47
-05CA:  CALL   4FD
-....................             delay_ms(ntime); 
-05CB:  MOVLW  04
-05CC:  MOVWF  47
-05CD:  MOVLW  FA
-05CE:  MOVWF  59
-05CF:  CALL   05D
-05D0:  DECFSZ 47,F
-05D1:  GOTO   5CD
-....................             break; 
-05D2:  GOTO   5FA
-....................          case 4: 
-....................             genera_sonido(SOLn); 
-05D3:  MOVLW  9F
-05D4:  MOVWF  47
-05D5:  CALL   4FD
-....................             delay_ms(ntime); 
-05D6:  MOVLW  04
-05D7:  MOVWF  47
-05D8:  MOVLW  FA
-05D9:  MOVWF  59
-05DA:  CALL   05D
-05DB:  DECFSZ 47,F
-05DC:  GOTO   5D8
-....................             break; 
-05DD:  GOTO   5FA
-....................          case 5: 
-....................             genera_sonido(LAn); 
-05DE:  MOVLW  8D
-05DF:  MOVWF  47
-05E0:  CALL   4FD
-....................             delay_ms(ntime); 
-05E1:  MOVLW  04
-05E2:  MOVWF  47
-05E3:  MOVLW  FA
-05E4:  MOVWF  59
-05E5:  CALL   05D
-05E6:  DECFSZ 47,F
-05E7:  GOTO   5E3
-....................             break; 
-05E8:  GOTO   5FA
-....................          case 6: 
-....................             genera_sonido(SIn); 
-05E9:  MOVLW  7E
-05EA:  MOVWF  47
-05EB:  CALL   4FD
-....................             delay_ms(ntime); 
-05EC:  MOVLW  04
-05ED:  MOVWF  47
-05EE:  MOVLW  FA
-05EF:  MOVWF  59
-05F0:  CALL   05D
-05F1:  DECFSZ 47,F
-05F2:  GOTO   5EE
-....................             break; 
-05F3:  GOTO   5FA
-....................          case 7: 
-....................             genera_sonido(NONE); 
-05F4:  CLRF   47
-05F5:  CALL   4FD
-....................             break; 
-05F6:  GOTO   5FA
-....................          default: 
-....................             genera_sonido(NONE); 
-05F7:  CLRF   47
-05F8:  CALL   4FD
-....................              
-....................             break; 
-05F9:  GOTO   5FA
-....................       } 
+.................... //!      switch(color){ 
+.................... //!         case 0: 
+.................... //!            genera_sonido(NONE); 
+.................... //!            //output_high(PIN_A0); 
+.................... //!            //delay_ms(2000); 
+.................... //!            break; 
+.................... //!         case 1: 
+.................... //!            genera_sonido(REn); 
+.................... //!            output_high(PIN_A1); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 2: 
+.................... //!            genera_sonido(MIn); 
+.................... //!            output_high(PIN_A2); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 3: 
+.................... //!            genera_sonido(FAn); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 4: 
+.................... //!            genera_sonido(SOLn); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 5: 
+.................... //!            genera_sonido(LAn); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 6: 
+.................... //!            genera_sonido(SIn); 
+.................... //!            delay_ms(ntime); 
+.................... //!            break; 
+.................... //!         case 7: 
+.................... //!            genera_sonido(NONE); 
+.................... //!            break; 
+.................... //!         default: 
+.................... //!            genera_sonido(NONE); 
+.................... //!             
+.................... //!            break; 
+.................... //!      } 
 ....................  
 ....................    } 
-05FA:  GOTO   575
+0556:  GOTO   513
 ....................     
 .................... } 
-05FB:  SLEEP
+0557:  SLEEP
 
 Configuration Fuses:
    Word  1: 2F38   NOWDT NOPUT MCLR NOBROWNOUT NOLVP NOCPD NOWRT NODEBUG CCPB3 NOPROTECT INTRC_IO

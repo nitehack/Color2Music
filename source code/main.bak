@@ -53,6 +53,8 @@ void main()
    int16 frecuencia_R=0;
    int16 frecuencia_G=0;
    int16 frecuencia_B=0;
+   int16 frecuencia_C=0;
+   
    int8 dato=0;
    int8 maximo=0;
    int8 direccion=0;
@@ -62,12 +64,40 @@ void main()
    init_sound();
    
    while(true){
-      leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B);
+      leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B, &frecuencia_C);
       //Atencion!! Para hacer debug hay que tener en cuenta que antes la funcion esa le resta el offset que tiene luego la frecuencia es distinta 
+//!      dato=(int8)(frecuencia_R>>8);
+//!      write_eeprom(direccion, dato);
+//!      dato=(int8)(frecuencia_R);
+//!      write_eeprom(direccion+1, dato);
+//!      
+//!      dato=(int8)(frecuencia_G>>8);
+//!      write_eeprom(direccion+2, dato);
+//!      dato=(int8)(frecuencia_G);
+//!      write_eeprom(direccion+3, dato);
+//!      
+//!      dato=(int8)(frecuencia_B>>8);
+//!      write_eeprom(direccion+4, dato);
+//!      dato=(int8)(frecuencia_B);
+//!      write_eeprom(direccion+5, dato);
+//!      
+//!      dato=(int8)(frecuencia_C>>8);
+//!      write_eeprom(direccion+6, dato);
+//!      dato=(int8)(frecuencia_C);
+//!      write_eeprom(direccion+7, dato);
+//!      
+//!      direccion=direccion+9;
+//!      if (direccion>=240){
+//!         direccion=0;
+//!      }
       
+      color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G,frecuencia_C);
+//!      write_eeprom(direccion, color);
+//!      direccion++;
+//!      if(direccion>240){
+//!         direccion=0;
+//!      }
       
-      
-      color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G);
 //!      genera_sonido(DOn);
 //!      delay_ms(2000);
 //!      genera_sonido(REn);
@@ -87,46 +117,46 @@ void main()
 //!      if(direccion>254){
 //!         direccion=0;
 //!      }
-      switch(color){
-         case 0:
-            genera_sonido(NONE);
-            //output_high(PIN_A0);
-            //delay_ms(2000);
-            break;
-         case 1:
-            genera_sonido(REn);
-            output_high(PIN_A1);
-            delay_ms(2000);
-            break;
-         case 2:
-            genera_sonido(MIn);
-            output_high(PIN_A2);
-            delay_ms(2000);
-            break;
-         case 3:
-            genera_sonido(FAn);
-            delay_ms(2000);
-            break;
-         case 4:
-            genera_sonido(SOLn);
-            delay_ms(2000);
-            break;
-         case 5:
-            genera_sonido(LAn);
-            delay_ms(2000);
-            break;
-         case 6:
-            genera_sonido(SIn);
-            delay_ms(2000);
-            break;
-         case 7:
-            genera_sonido(NONE);
-            break;
-         default:
-            genera_sonido(NONE);
-            
-            break;
-      }
+//!      switch(color){
+//!         case 0:
+//!            genera_sonido(NONE);
+//!            //output_high(PIN_A0);
+//!            //delay_ms(2000);
+//!            break;
+//!         case 1:
+//!            genera_sonido(REn);
+//!            output_high(PIN_A1);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 2:
+//!            genera_sonido(MIn);
+//!            output_high(PIN_A2);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 3:
+//!            genera_sonido(FAn);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 4:
+//!            genera_sonido(SOLn);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 5:
+//!            genera_sonido(LAn);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 6:
+//!            genera_sonido(SIn);
+//!            delay_ms(ntime);
+//!            break;
+//!         case 7:
+//!            genera_sonido(NONE);
+//!            break;
+//!         default:
+//!            genera_sonido(NONE);
+//!            
+//!            break;
+//!      }
 
    }
    

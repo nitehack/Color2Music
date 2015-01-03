@@ -1,5 +1,7 @@
->>> Warning 202 "main.c" Line 56(9,13): Variable never used:   dato
->>> Warning 202 "main.c" Line 57(9,15): Variable never used:   maximo
->>> Warning 202 "main.c" Line 58(9,18): Variable never used:   direccion
-      Memory usage:   ROM=37%      RAM=12% - 23%
-      0 Errors,  3 Warnings.
+>>> Warning 202 "C:\Users\Ali\Documents\GitHub\Color2Music\source code\color.c" Line 14(7,12): Variable never used:   nivel
+>>> Warning 202 "C:\Users\Ali\Documents\GitHub\Color2Music\source code\color.c" Line 33(10,19): Variable never used:   f_C_inter
+>>> Warning 202 "C:\Users\Ali\Documents\GitHub\Color2Music\source code\color.c" Line 140(10,19): Variable never used:   direccion
+>>> Warning 202 "main.c" Line 58(9,13): Variable never used:   dato
+>>> Warning 202 "main.c" Line 59(9,15): Variable never used:   maximo
+      Memory usage:   ROM=33%      RAM=12% - 24%
+      0 Errors,  5 Warnings.

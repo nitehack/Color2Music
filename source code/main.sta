@@ -1,61 +1,62 @@
 
-ROM used: 1532 (37%)
-          1532 (37%) including unused fragments
+ROM used: 1368 (33%)
+          1368 (33%) including unused fragments
 
           2 Average locations per line
           11 Average locations per statement
 
-RAM used: 45 (12%) at main() level
-          86 (23%) worst case
+RAM used: 46 (12%) at main() level
+          90 (24%) worst case
 
 Stack used: 4 worst case (out of 8 total available)
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  134    33  25  main.c
+  164    11   9  main.c
    21     0   0  main.h
   315     0   0  16F88.h
-   38     8   6  sound.c
-  151    83  62  color.c
-   26    10   7  frequency.c
+   38     8   7  sound.c
+  239    91  76  color.c
+   26    10   8  frequency.c
 ----- -----
-  685   134 Total
+  803   120 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0     20   1   1             @delay_ms1
 0      8   1   0    17  0.8  init_sound
-0     54   4   5   225  5.2  genera_sonido
 0     17   1   0    42  1.4  llega_pulso
  Inline        0   110  2.1  init_freq
-0     44   3   4   107  2.1  calcula_frecuencia
+0    244  18   4   107  2.1  calcula_frecuencia
 0     29   2   2             @ITOF
-0    202  13  14             @DIVFF
+ Inline       14             @DIVFF
 0     31   2   4             @SFTOI
 0     19   1   0    43  1.1  init_tcs
-0    365  24  20  1259  5.3  leer_frecuencia_color
-0    117   8  13  2250 10.6  @MULFF
-0     63   4  10  2250 10.6  @FLT
-0    313  20  28  1370  8.6  detectar_color
-0    201  13  11  1163  6.3  MAIN
+0    405  30  26  1554  5.4  leer_frecuencia_color
+0    117   9  13  2250 10.6  @MULFF
+0     63   5  10  2250 10.6  @FLT
+0     64   5   9   325  6.2  busca_maximo
+ Inline       10   422  6.9  busca_maximo2
+0    162  12  24  1070  9.1  detectar_color
+0    140  10  12   539  5.5  MAIN
 
 Program metrics:
-    Functions               11
-    Statements              134
-    Comments                164
-    Volume (V)              12533
-    Difficilty (D)          56.6
-    Effort to implement (E) 709010
-    Time to implement (T)   10 hours, 56 minutes
+    Functions               12
+    Statements              120
+    Comments                296
+    Volume (V)              12611
+    Difficilty (D)          63.7
+    Effort to implement (E) 803542
+    Time to implement (T)   12 hours, 24 minutes
     Est Delivered Bugs (B)  3
-    Cyclomatic Complexity   40
-    Maintainability (MI)    78
+    Cyclomatic Complexity   32
+    Maintainability (MI)    146
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
 00004-00030    45  0  
-00031-007FF  1483  516  
+00031-007FF  1319  680  
 00800-00FFF     0  2048  
 
 
