@@ -54,11 +54,17 @@ void main()
    int16 frecuencia_G=0;
    int16 frecuencia_B=0;
    int16 frecuencia_C=0;
-   
+   int8 i=0;
    int8 dato=0;
    int8 maximo=0;
    int8 direccion=0;
-   int8 color;
+   int8 color=0;
+   int8 colorant=0;
+   int8 buffer[17]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+   int8 cuenta=0;
+   int8 capacidad=17;
+   int8 inicio=0;
+   int8 lleno=0;
    
    init_tcs();
    init_sound();
@@ -91,12 +97,49 @@ void main()
 //!         direccion=0;
 //!      }
       
-      color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G,frecuencia_C);
-//!      write_eeprom(direccion, color);
-//!      direccion++;
-//!      if(direccion>240){
-//!         direccion=0;
-//!      }
+     
+      i=0;
+      
+      while(lleno==0){
+         colorant=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G,frecuencia_C);
+         buffer[i]=colorant;
+         
+         if(i>0){
+            if(buffer[i]==buffer[i-1]){
+               if(i>=capacidad-1){
+                  color=colorant;
+                  lleno=1;
+                  output_high(PIN_A1);
+                  
+                  
+               }
+              
+            }
+            else{
+               
+               inicio=1;
+               
+            }
+         }
+         if(lleno==0){
+            if(inicio==1){
+               i=0;
+               inicio=0;
+            }
+            else{
+               i++;
+            }
+         }
+      }
+      lleno=0;
+      
+
+
+      write_eeprom(direccion, color);
+      direccion++;
+      if(direccion>240){
+         direccion=0;
+      }
       
 //!      genera_sonido(DOn);
 //!      delay_ms(2000);
@@ -117,46 +160,42 @@ void main()
 //!      if(direccion>254){
 //!         direccion=0;
 //!      }
-//!      switch(color){
-//!         case 0:
-//!            genera_sonido(NONE);
-//!            //output_high(PIN_A0);
-//!            //delay_ms(2000);
-//!            break;
-//!         case 1:
-//!            genera_sonido(REn);
-//!            output_high(PIN_A1);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 2:
-//!            genera_sonido(MIn);
-//!            output_high(PIN_A2);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 3:
-//!            genera_sonido(FAn);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 4:
-//!            genera_sonido(SOLn);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 5:
-//!            genera_sonido(LAn);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 6:
-//!            genera_sonido(SIn);
-//!            delay_ms(ntime);
-//!            break;
-//!         case 7:
-//!            genera_sonido(NONE);
-//!            break;
-//!         default:
-//!            genera_sonido(NONE);
-//!            
-//!            break;
-//!      }
+      switch(color){
+         case 0:
+            genera_sonido(NONE);
+            break;
+         case 1:
+            genera_sonido(Don);
+            delay_ms(ntime);
+            break;
+         case 2:
+            genera_sonido(REn);
+            delay_ms(ntime);
+            break;
+         case 3:
+            genera_sonido(MIn);
+            delay_ms(ntime);
+            break;
+         case 4:
+            genera_sonido(FAn);
+            delay_ms(ntime);
+            break;
+         case 5:
+            genera_sonido(SOLn);
+            delay_ms(ntime);
+            break;
+         case 6:
+            genera_sonido(LAn);
+            delay_ms(ntime);
+            break;
+         case 7:
+            genera_sonido(SIn);
+            break;
+         default:
+            genera_sonido(NONE);
+            
+            break;
+      }
 
    }
    

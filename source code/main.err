@@ -3,5 +3,7 @@
 >>> Warning 202 "C:\Users\Ali\Documents\GitHub\Color2Music\source code\color.c" Line 140(10,19): Variable never used:   direccion
 >>> Warning 202 "main.c" Line 58(9,13): Variable never used:   dato
 >>> Warning 202 "main.c" Line 59(9,15): Variable never used:   maximo
-      Memory usage:   ROM=33%      RAM=12% - 24%
-      0 Errors,  5 Warnings.
+>>> Warning 202 "main.c" Line 60(9,18): Variable never used:   direccion
+>>> Warning 202 "main.c" Line 64(9,15): Variable never used:   cuenta
+      Memory usage:   ROM=42%      RAM=19% - 32%
+      0 Errors,  7 Warnings.

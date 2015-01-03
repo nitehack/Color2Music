@@ -17,6 +17,7 @@
 #define DOBn 225
 #define DOn 238
 #define NONE 0
+#define ntime 70
 #ENDIF
 
 void init_sound(){

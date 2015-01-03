@@ -143,30 +143,37 @@ int8 detectar_color(int16 fred, int16 fblue,int16 fgreen, int16 fclear){
    rgb[1]=fgreen;
    rgb[2]=fblue;
    max1=busca_maximo(rgb,3);
-
-   if(fclear<6500){
-      
-      switch(max1){
-         case 0:
-            color=4;
-            break;
-         case 1:
-            color=2;
-            break;
-         case 2:
-            color=1;
-            break;
-         default:
-            color=8;
-            break;
-      }
+   if(fclear>10000){
+      color=7;
+   }
+   else if(fclear<3000){
+      color=0;
    }
    else{
-      max2=busca_maximo2(rgb,3);
-      rgb2[max1]=1;
-      rgb2[max2]=1;
-      color=(rgb2[0]<<2)+(rgb2[1]<<1)+rgb2[2];
-   }
+      if(fclear<6000){
+         
+         switch(max1){
+            case 0:
+               color=4;
+               break;
+            case 1:
+               color=2;
+               break;
+            case 2:
+               color=1;
+               break;
+            default:
+               color=8;
+               break;
+         }
+      }
+      else{
+         max2=busca_maximo2(rgb,3);
+         rgb2[max1]=1;
+         rgb2[max2]=1;
+         color=(rgb2[0]<<2)+(rgb2[1]<<1)+rgb2[2];
+      }
+      }
    return color;
 
 }
