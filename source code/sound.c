@@ -3,6 +3,7 @@
 // de frecuencias que nos interesa para esta aplicación.
 //Habria que hacer una función más general.
 
+#IFNDEF SIn
 #define SIn 126
 #define LABn 133
 #define LAn 141
@@ -15,6 +16,9 @@
 #define REn 212
 #define DOBn 225
 #define DOn 238
+#define NONE 0
+#define ntime 1000
+#ENDIF
 
 void init_sound(){
    setup_ccp1(CCP_PWM); //Indicamos que queremos usar el PWM
@@ -22,7 +26,12 @@ void init_sound(){
 
 void genera_sonido(int8 sonido){
    int16 value;
-   value=(4*((int16)sonido+1))/2;
-   setup_timer_2(T2_DIV_BY_16, sonido ,4); 
-   set_pwm1_duty(value); //se establece el ciclo de trabajo
+   if(sonido!=0){
+      value=(4*((int16)sonido+1))/2;
+      setup_timer_2(T2_DIV_BY_16, sonido ,4); 
+      set_pwm1_duty(value); //se establece el ciclo de trabajo
+   }
+   else{
+      set_pwm1_duty(0);
+   }
 }

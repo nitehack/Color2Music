@@ -1,2 +1,5 @@
-      Memory usage:   ROM=25%      RAM=8% - 14%
-      0 Errors,  0 Warnings.
+>>> Warning 202 "main.c" Line 56(9,13): Variable never used:   dato
+>>> Warning 202 "main.c" Line 57(9,15): Variable never used:   maximo
+>>> Warning 202 "main.c" Line 58(9,18): Variable never used:   direccion
+      Memory usage:   ROM=37%      RAM=12% - 23%
+      0 Errors,  3 Warnings.

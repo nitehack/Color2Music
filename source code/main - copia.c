@@ -56,7 +56,6 @@ void main()
    int8 dato=0;
    int8 maximo=0;
    int8 direccion=0;
-   int8 color;
    
    init_tcs();
    init_sound();
@@ -65,69 +64,74 @@ void main()
       leer_frecuencia_color(&frecuencia_R,&frecuencia_G, &frecuencia_B);
       //Atencion!! Para hacer debug hay que tener en cuenta que antes la funcion esa le resta el offset que tiene luego la frecuencia es distinta 
       
+      dato=(int8)(frecuencia_R>>8);
+      write_eeprom(direccion, dato);
+      dato=(int8)(frecuencia_R);
+      write_eeprom(direccion+1, dato);
       
+      dato=(int8)(frecuencia_G>>8);
+      write_eeprom(direccion+2, dato);
+      dato=(int8)(frecuencia_G);
+      write_eeprom(direccion+3, dato);
       
-      color=detectar_color(frecuencia_R,frecuencia_B,frecuencia_G);
-//!      genera_sonido(DOn);
-//!      delay_ms(2000);
-//!      genera_sonido(REn);
-//!      delay_ms(2000);
-//!      genera_sonido(MIn);
-//!      delay_ms(2000);
-//!      genera_sonido(FAn);
-//!      delay_ms(2000);
-//!      genera_sonido(SOLn);
-//!      delay_ms(2000);
-//!      genera_sonido(LAn);
-//!      delay_ms(2000);
-//!      genera_sonido(SIn);
-//!      delay_ms(2000);
-//!      write_eeprom(direccion, color);
-//!      direccion++;
-//!      if(direccion>254){
-//!         direccion=0;
-//!      }
-      switch(color){
-         case 0:
-            genera_sonido(NONE);
-            //output_high(PIN_A0);
-            //delay_ms(2000);
-            break;
+      dato=(int8)(frecuencia_B>>8);
+      write_eeprom(direccion+4, dato);
+      dato=(int8)(frecuencia_B);
+      write_eeprom(direccion+5, dato);
+      
+      direccion=direccion+7;
+      
+      if((frecuencia_R<288)&&(frecuencia_G<208)&&(frecuencia_B<208)){
+         maximo=0;
+      }
+      else{
+         if(frecuencia_R>frecuencia_G){
+            if(frecuencia_R>frecuencia_B){
+               maximo=1;
+            }
+            else{
+               maximo=3;
+            }
+         }
+         else{
+            if(frecuencia_G>frecuencia_B){
+               maximo=2;
+            }
+            else{
+               maximo=3;
+            }
+         }
+      }
+      switch(maximo){
          case 1:
-            genera_sonido(REn);
-            output_high(PIN_A1);
-            delay_ms(ntime);
+            output_low(PIN_A1);
+            output_low(PIN_A2);
+            output_high(PIN_A0);
+            genera_sonido(DOn);
             break;
          case 2:
-            genera_sonido(MIn);
-            output_high(PIN_A2);
-            delay_ms(ntime);
+            output_low(PIN_A0);
+            output_low(PIN_A2);
+            output_high(PIN_A1);
+            genera_sonido(REn);
             break;
+            
          case 3:
-            genera_sonido(FAn);
-            delay_ms(ntime);
-            break;
-         case 4:
-            genera_sonido(SOLn);
-            delay_ms(ntime);
-            break;
-         case 5:
-            genera_sonido(LAn);
-            delay_ms(ntime);
-            break;
-         case 6:
-            genera_sonido(SIn);
-            delay_ms(ntime);
-            break;
-         case 7:
-            genera_sonido(NONE);
+            output_low(PIN_A0);
+            output_low(PIN_A1);
+            output_high(PIN_A2);
+            genera_sonido(MIn);
             break;
          default:
+            output_low(PIN_A0);
+            output_low(PIN_A1);
+            output_low(PIN_A2);
             genera_sonido(NONE);
-            
             break;
       }
-
+      if (direccion>=240){
+         direccion=0;
+      }
    }
    
 }

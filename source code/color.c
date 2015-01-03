@@ -3,15 +3,21 @@ Los pines que se indican en los "defines" son del sensor TCS3200 yl-64
 */
 #include "frequency.c"
 
+#IFNDEF S0
 #define S0 PIN_B1
 #define S1 PIN_B2
 #define S2 PIN_B6
 #define S3 PIN_B4
 #define OE PIN_B5
+#ENDIF
 
-int8 offset_r=34;
-int8 offset_g=0;
-int8 offset_b=15;
+float nivel=1.53;
+int8 offset_r=167;//;
+int8 offset_g=133;
+int8 offset_b=149;//15;
+float gan_r=1;
+float gan_g=1.22408;
+float gan_b=1.08115;
 
 //Habria que hacer una función "init_tcs" mas general para poder seleccionar otros rangos
 void init_tcs(){
@@ -21,6 +27,10 @@ void init_tcs(){
 }
 
 void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frecuencia_B){
+   float f_R_inter;
+   float f_G_inter;
+   float f_B_inter;
+   
    output_high(OE);
    output_low(S2);
    output_low(S3);
@@ -28,7 +38,16 @@ void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frec
    delay_ms(1);
    output_low(OE);
    delay_ms(10);
-   *frecuencia_R=calcula_frecuencia()-offset_r;
+   f_R_inter=calcula_frecuencia()-offset_r;
+   f_R_inter=f_R_inter*gan_r;
+   
+   if(f_R_inter<0){
+      *frecuencia_R=0;   
+   }
+   else{
+      *frecuencia_R=(int16)f_R_inter;
+   }
+   
    
    //Azul
    output_high(OE);
@@ -38,7 +57,14 @@ void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frec
    delay_ms(1);
    output_low(OE);
    delay_ms(10);
-   *frecuencia_B=calcula_frecuencia()-offset_b;
+   f_B_inter=calcula_frecuencia()-offset_b;
+   f_B_inter=f_B_inter*gan_b;
+   if(f_B_inter<0){
+      *frecuencia_B=0;   
+   }
+   else{
+      *frecuencia_B=(int16)f_B_inter;
+   }
    
    //Verde
    output_high(OE);
@@ -48,5 +74,77 @@ void leer_frecuencia_color(int16 *frecuencia_R, int16 *frecuencia_G, int16 *frec
    delay_ms(1);
    output_low(OE);
    delay_ms(10);
-   *frecuencia_G=calcula_frecuencia()-offset_g;
+   f_G_inter=calcula_frecuencia()-offset_g;
+   f_G_inter=f_G_inter*gan_g;
+   if(f_G_inter<0){
+      *frecuencia_G=0;   
+   }
+   else{
+      *frecuencia_G=(int16)f_G_inter;
+   }
 }
+
+//Buscar el mas chico y dividirlo entre el más chico. Los que esten por encima de un nivel son "1" y los que sean menores son "0"
+int8 detectar_color(int16 fred, int16 fblue,int16 fgreen){
+   int8 color;
+   int16 mini=1;
+   float nred;
+   float nblue;
+   float ngreen;
+   int8 bitred;
+   int8 bitblue;
+   int8 bitgreen;
+   
+   if(fred<fblue){
+      if(fred<fgreen){
+         mini=fred;
+      }
+      else{
+         mini=fgreen;
+      }
+   }
+   else{
+      if(fblue<fgreen){
+         mini=fblue;
+      }
+      else{
+         mini=fgreen;
+      }
+   }
+   nred=(float)fred/(float)mini;
+   nblue=(float)fblue/(float)mini;
+   ngreen=(float)fgreen/(float)mini;
+   
+   if(nred>nivel){
+      bitred=1;
+   }
+   else{
+      bitred=0;
+   }
+   if(nblue>nivel){
+      bitblue=1;
+   }
+   else{
+      bitblue=0;
+   }
+   if(ngreen>nivel){
+      bitgreen=1;
+   }
+   else{
+      bitgreen=0;
+   }
+   color=(bitred<<2)+(bitgreen<<1)+bitblue;
+   
+   if(color==0){
+      if(fred>1000){
+         color=7;
+      }
+   }
+   else if((fred<1000)&&(fblue<1000)&&(fgreen<1000)){
+      color=8;
+   }
+   
+   return color;
+}
+
+
